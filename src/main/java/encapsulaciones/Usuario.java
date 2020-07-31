@@ -15,7 +15,7 @@ public class Usuario implements Serializable {
 
     public Usuario(){}
 
-    public Usuario(String username, String nombre, String password, String role) {
+    public Usuario(String username, String password, String nombre,  String role) {
         this.username = username;
         this.nombre = nombre;
         this.password = password;
