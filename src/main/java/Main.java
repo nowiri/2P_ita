@@ -33,7 +33,7 @@ public class Main {
         app.get("/login", ctx -> {
             Map<String, Object> modelo = new HashMap<>();
             modelo.put("msg","");
-            ctx.render("/resources/login/index.html", modelo);
+            ctx.render("public/login/index.html", modelo);
         });
 
         app.post("/login", ctx -> {
@@ -45,7 +45,7 @@ public class Main {
                 Map<String, Object> modelo = new HashMap<>();
                 modelo.put("msg","Combinación de usuario y contraseña erroneo! Favor verificar.");
 
-                ctx.render("resources/login/index.html", modelo);
+                ctx.render("public/login/index.html", modelo);
             }else{
                 //TODO: LOGIN SUCCESFUL
 
