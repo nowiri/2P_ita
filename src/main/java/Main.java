@@ -45,7 +45,7 @@ public class Main {
                 Map<String, Object> modelo = new HashMap<>();
                 modelo.put("msg","Combinación de usuario y contraseña erroneo! Favor verificar.");
 
-                ctx.render("/resources/login/index.html", modelo);
+                ctx.render("resources/login/index.html", modelo);
             }else{
                 //TODO: LOGIN SUCCESFUL
 
@@ -53,9 +53,6 @@ public class Main {
 
         });
 
-
-
     }
-
 
 }
