@@ -48,7 +48,7 @@ public class Main {
                 ctx.render("public/login/index.html", modelo);
             }else{
                 //TODO: LOGIN SUCCESFUL
-
+                ctx.redirect("/form/index.html");
             }
 
         });
