@@ -375,19 +375,10 @@ h6 {
 }
 
 .m-r-100-b {
-  margin-right: 300px;
   padding-bottom: 5px;
+  padding-right: 10px;
 }
 
-.row-map{
-   width: 200px;
-   height: 200px;
-   position: absolute;
-   top: 320px;
-   right: 550px;
-
-
-}
 
 /* ==========================================================================
    #WRAPPER
