@@ -327,6 +327,7 @@ h6 {
 
 .p-t-15 {
   padding-top: 15px;
+
 }
 
 .p-t-10 {
@@ -339,23 +340,45 @@ h6 {
 
 .p-b-100 {
   padding-bottom: 100px;
+
 }
 
 .p-b-50 {
   padding-bottom: 50px;
 }
-
-.m-r-45 {
+.m-r-38-b {
+  margin-right: 38px;
+}
+.m-r-45-b {
   margin-right: 45px;
+  padding-bottom: 5px;
 }
 
-.m-r-55 {
+.m-r-55-b {
   margin-right: 55px;
+  padding-bottom: 5px;
 }
 
-.m-b-55 {
-  margin-bottom: 55px;
+.m-r-65-b {
+  margin-right: 65px;
+  padding-bottom: 5px;
 }
+
+.m-l-65-b {
+  margin-left: 65px;
+  padding-bottom: 5px;
+}
+
+.m-b-55-b {
+  margin-bottom: 55px;
+  padding-bottom: 5px;
+}
+
+.m-r-100-b {
+  padding-bottom: 5px;
+  padding-right: 10px;
+}
+
 
 /* ==========================================================================
    #WRAPPER
@@ -383,6 +406,9 @@ h6 {
 /* ==========================================================================
    #BUTTON
    ========================================================================== */
+.btn-div{
+justify-content: center;
+}
 .btn {
   display: inline-block;
   line-height: 50px;
@@ -397,12 +423,14 @@ h6 {
   font-weight: 700;
   color: #fff;
   font-family: inherit;
+
 }
 
 .btn--radius {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+
 }
 
 .btn--radius-2 {

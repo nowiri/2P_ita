@@ -24,6 +24,36 @@
 
     <!-- Main CSS-->
     <link href="../form/css/main.css" rel="stylesheet" media="all">
+
+    <script src="../form/js/jquery-3.2.1.min.js"></script>
+    <script>
+        var id, cantidad = 0;
+        //Indica las opciones para llamar al GPS.
+        var opcionesGPS = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        }
+
+        $(document).ready(function(){
+
+            //Obteniendo la referencia directa.
+            navigator.geolocation.getCurrentPosition(function(geodata){
+                var coordenadas = geodata.coords;
+
+                var element = document.getElementById("longitud");
+                element.value = coordenadas.longitude;
+                element = document.getElementById("latitud");
+                element.value = coordenadas.latitude;
+
+                $("#posicionGps").text("Latitud: "+coordenadas.latitude+", Longitud: "+coordenadas.longitude+", Precisión: "+coordenadas.accuracy+" metros");
+            }, function(){
+                $("#posicionGps").text("No permite el acceso del API GEO");
+            }, opcionesGPS);
+
+        });
+    </script>
+
 </head>
 
 <body>
@@ -34,7 +64,29 @@
                     <h2 class="title">Encuesta de nivel educativo</h2>
                 </div>
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" action="/newFormulario">
+
+                        <div class="form-row m-b-55">
+                            <div class="name">Ubicacion</div>
+                            <div class="value">
+                                <div class="row row-space">
+                                    <div class="col-2">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" type="text" name="longitud" id="longitud" readonly>
+                                            <label class="label--desc">Longitud</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" type="text" name="latitud" id="latitud" readonly>
+                                            <label class="label--desc">Latitud</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="form-row m-b-55">
                             <div class="name">Nombre</div>
                             <div class="value">
@@ -91,27 +143,29 @@
                             <label class="label label--block">Grado academico</label>
                             <div class="p-t-15 ">
                                 <label class="radio-container m-r-100-b ">Basico
-                                    <input type="radio" checked="checked" name="nivelacad">
+                                    <input type="radio" checked="checked" name="nivelacad" value="Basico">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label class="radio-container m-r-100-b ">Medio
-                                    <input type="radio" name="nivelacad">
+                                    <input type="radio" name="nivelacad" value="Medio">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label class="radio-container m-r-100-b ">Grado universitario
-                                    <input type="radio" name="nivelacad">
+                                    <input type="radio" name="nivelacad" value="Grado Universitario">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label class="radio-container m-r-100-b ">Postgrado
-                                    <input type="radio" name="nivelacad">
+                                    <input type="radio" name="nivelacad" value="Postgrado">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label class="radio-container m-r-100-b ">Doctorado
-                                    <input type="radio" name="nivelacad">
+                                    <input type="radio" name="nivelacad" value="Doctorado">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
                         </div>
+
+
 
                         <div class="btn-div">
                             <button class="btn btn--radius-2 btn--red" type="submit">Enviar</button>

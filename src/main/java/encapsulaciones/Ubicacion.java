@@ -10,33 +10,33 @@ public class Ubicacion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private float longitud;
-    private float latitud;
+    private String longitud;
+    private String latitud;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Formulario formulario;
 
     public Ubicacion() {}
 
-    public Ubicacion(float longitud, float latitud, Formulario formulario) {
+    public Ubicacion(String longitud, String latitud, Formulario formulario) {
         this.longitud = longitud;
         this.latitud = latitud;
         this.formulario = formulario;
     }
 
-    public float getLongitud() {
+    public String getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(float longitud) {
+    public void setLongitud(String longitud) {
         this.longitud = longitud;
     }
 
-    public float getLatitud() {
+    public String getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(float latitud) {
+    public void setLatitud(String latitud) {
         this.latitud = latitud;
     }
 

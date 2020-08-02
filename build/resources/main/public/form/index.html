@@ -10,7 +10,7 @@
     <meta name="keywords" content="Colorlib Templates">
 
     <!-- Title Page-->
-    <title>Au Register Forms by Colorlib</title>
+    <title>PARCIAL2</title>
 
     <!-- Icons font CSS-->
     <link href="../form/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -24,6 +24,36 @@
 
     <!-- Main CSS-->
     <link href="../form/css/main.css" rel="stylesheet" media="all">
+
+    <script src="../form/js/jquery-3.2.1.min.js"></script>
+    <script>
+        var id, cantidad = 0;
+        //Indica las opciones para llamar al GPS.
+        var opcionesGPS = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        }
+
+        $(document).ready(function(){
+
+            //Obteniendo la referencia directa.
+            navigator.geolocation.getCurrentPosition(function(geodata){
+                var coordenadas = geodata.coords;
+
+                var element = document.getElementById("longitud");
+                element.value = coordenadas.longitude;
+                element = document.getElementById("latitud");
+                element.value = coordenadas.latitude;
+
+                $("#posicionGps").text("Latitud: "+coordenadas.latitude+", Longitud: "+coordenadas.longitude+", Precisión: "+coordenadas.accuracy+" metros");
+            }, function(){
+                $("#posicionGps").text("No permite el acceso del API GEO");
+            }, opcionesGPS);
+
+        });
+    </script>
+
 </head>
 
 <body>
@@ -31,95 +61,114 @@
         <div class="wrapper wrapper--w790">
             <div class="card card-5">
                 <div class="card-heading">
-                    <h2 class="title">Event Registration Form</h2>
+                    <h2 class="title">Encuesta de nivel educativo</h2>
                 </div>
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" action="/newFormulario">
+
                         <div class="form-row m-b-55">
-                            <div class="name">Name</div>
+                            <div class="name">Ubicacion</div>
+                            <div class="value">
+                                <div class="row row-space">
+                                    <div class="col-2">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" type="text" name="longitud" id="longitud" readonly>
+                                            <label class="label--desc">Longitud</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="input-group-desc">
+                                            <input class="input--style-5" type="text" name="latitud" id="latitud" readonly>
+                                            <label class="label--desc">Latitud</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row m-b-55">
+                            <div class="name">Nombre</div>
                             <div class="value">
                                 <div class="row row-space">
                                     <div class="col-2">
                                         <div class="input-group-desc">
                                             <input class="input--style-5" type="text" name="first_name">
-                                            <label class="label--desc">first name</label>
+                                            <label class="label--desc">Nombre</label>
                                         </div>
                                     </div>
                                     <div class="col-2">
                                         <div class="input-group-desc">
                                             <input class="input--style-5" type="text" name="last_name">
-                                            <label class="label--desc">last name</label>
+                                            <label class="label--desc">Apellido</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
+                       <!-- lista de productos, en el select -->
                         <div class="form-row">
-                            <div class="name">Company</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="company">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Email</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="email" name="email">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row m-b-55">
-                            <div class="name">Phone</div>
-                            <div class="value">
-                                <div class="row row-refine">
-                                    <div class="col-3">
-                                        <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="area_code">
-                                            <label class="label--desc">Area Code</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-9">
-                                        <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="phone">
-                                            <label class="label--desc">Phone Number</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Subject</div>
+                            <div class="name">Provincia</div>
                             <div class="value">
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select name="subject">
-                                            <option disabled="disabled" selected="selected">Choose option</option>
-                                            <option>Subject 1</option>
-                                            <option>Subject 2</option>
-                                            <option>Subject 3</option>
+                                            <option disabled="disabled" selected="selected">Elegir</option>
+                                            <option>Duarte</option>
+                                            <option>Dajabón</option>
+                                            <option>Espaillat</option>
+                                            <option>La Vega</option>
+                                            <option>María Trinidad Sánchez </option>
+                                            <option>Monseñor Nouel </option>
+                                            <option>Montecristi </option>
+                                            <option>Puerto Plata </option>
+                                            <option>Salcedo </option>
+                                            <option>Samaná </option>
+                                            <option>Sánchez Ramírez </option>
+                                            <option>Santiago de los Caballeros </option>
+                                            <option>Santiago Rodríguez </option>
+                                            <option>Valverde</option>
                                         </select>
                                         <div class="select-dropdown"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row p-t-20">
-                            <label class="label label--block">Are you an existing customer?</label>
-                            <div class="p-t-15">
-                                <label class="radio-container m-r-55">Yes
-                                    <input type="radio" checked="checked" name="exist">
+
+                        <!--  Radio buttons -->
+
+                        <div class="form-row p-t-20 ">
+                            <label class="label label--block">Grado academico</label>
+                            <div class="p-t-15 ">
+                                <label class="radio-container m-r-100-b ">Basico
+                                    <input type="radio" checked="checked" name="nivelacad" value="Basico">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="radio-container">No
-                                    <input type="radio" name="exist">
+                                <label class="radio-container m-r-100-b ">Medio
+                                    <input type="radio" name="nivelacad" value="Medio">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-100-b ">Grado universitario
+                                    <input type="radio" name="nivelacad" value="Grado Universitario">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-100-b ">Postgrado
+                                    <input type="radio" name="nivelacad" value="Postgrado">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio-container m-r-100-b ">Doctorado
+                                    <input type="radio" name="nivelacad" value="Doctorado">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
                         </div>
-                        <div>
-                            <button class="btn btn--radius-2 btn--red" type="submit">Register</button>
+
+
+
+                        <div class="btn-div">
+                            <button class="btn btn--radius-2 btn--red" type="submit">Enviar</button>
                         </div>
                     </form>
                 </div>

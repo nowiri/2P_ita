@@ -1,8 +1,12 @@
+import encapsulaciones.Formulario;
+import encapsulaciones.Ubicacion;
 import encapsulaciones.Usuario;
 import io.javalin.Javalin;
 import io.javalin.plugin.rendering.JavalinRenderer;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
 import services.DBStart;
+import services.FormularioServices;
+import services.UbicacionServices;
 import services.UsuarioServices;
 
 import java.util.HashMap;
@@ -48,8 +52,31 @@ public class Main {
                 ctx.render("public/login/index.html", modelo);
             }else{
                 //TODO: LOGIN SUCCESFUL
+                Usuario logged = UsuarioServices.getInstancia().find(user);
+                ctx.sessionAttribute("loggedUser", logged);
                 ctx.redirect("/form/index.html");
             }
+
+        });
+
+        app.post("/newFormulario", ctx -> {
+            String nombre, apellido, provincia, nivelAcad, longitud, latitud;
+            Usuario usuario = ctx.sessionAttribute("loggedUser");
+
+            longitud = ctx.formParam("longitud");
+            latitud = ctx.formParam("latitud");
+            nombre = ctx.formParam("first_name");
+            apellido = ctx.formParam("last_name");
+            provincia = ctx.formParam("subject");
+            nivelAcad = ctx.formParam("nivelacad");
+
+            Formulario form = new Formulario((nombre+" "+apellido),provincia,nivelAcad,usuario);
+            FormularioServices.getInstancia().crear(form);
+
+            Ubicacion ubicacion = new Ubicacion(longitud,latitud,form);
+            UbicacionServices.getInstancia().crear(ubicacion);
+
+            ctx.redirect("/form/index.html");
 
         });
 
