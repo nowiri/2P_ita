@@ -27,6 +27,10 @@
     <!-- Main CSS-->
     <link href="../form/css/main.css" rel="stylesheet" media="all">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
     <script src="../form/js/jquery-3.2.1.min.js"></script>
     <script>
         var id, cantidad = 0;
@@ -37,7 +41,7 @@
             maximumAge: 0
         }
 
-        $(document).ready(function(){
+        function getlocation(){
 
             //Obteniendo la referencia directa.
             navigator.geolocation.getCurrentPosition(function(geodata){
@@ -53,27 +57,154 @@
                 $("#posicionGps").text("No permite el acceso del API GEO");
             }, opcionesGPS);
 
-        });
+        };
     </script>
 
     <script>
-        class Formulario {
-            constructor(nombre, sector, nivelEscolar, usuario) {
-                this.nombre = nombre;
-                this.sector = sector;
-                this.nivelEscolar = nivelEscolar;
-                this.usuario = usuario;
+
+        function  formCRUD(){
+            var localStorageKeyName = 'forms';
+
+            cargarLocalStorage();
+
+            $("#submit").click(function () {
+                var longitud = document.getElementById("longitud"),
+                    latitud = document.getElementById("latitud"),
+                    nombre = document.getElementById("first_name"),
+                    apellido = document.getElementById("last_name"),
+                    provincia = document.getElementById("subject"),
+                    nivelAcad = document.getElementById("nivelacad"),
+                    usuario = localStorage.getItem("loggedUser");
+
+                // Validate
+                //if (name.value.length === 0 || job.value.length === 0 || !parseInt(age.value)) return;
+
+                var formulario = {
+                    longitud: longitud.value,
+                    latitud: latitud.value,
+                    nombre: nombre.value,
+                    apellido: apellido.value,
+                    provincia: provincia.value,
+                    nivelacad: nivelAcad.value,
+                    usuario: usuario
+                };
+
+                // Clean data
+                nombre.value = '';
+                apellido.value = '';
+
+                // Append to my localStorage
+                agregarLocalStorage(formulario);
+            })
+
+            function agregarLocalStorage(obj) {
+                var forms = [],
+                    dataInLocalStorage = localStorage.getItem(localStorageKeyName);
+
+                if (dataInLocalStorage !== null) {
+                    forms = JSON.parse(dataInLocalStorage);
+                }
+
+                forms.push(obj);
+
+                localStorage.setItem(localStorageKeyName, JSON.stringify(forms));
+
+                cargarLocalStorage();
+            }
+
+            function cargarLocalStorage() {
+                var forms = [],
+                    dataInLocalStorage = localStorage.getItem(localStorageKeyName),
+                    gridBody = document.querySelector("#grid tbody");
+
+                if (dataInLocalStorage !== null) {
+                    forms = JSON.parse(dataInLocalStorage);
+                }
+
+                // Draw TR from TBODY
+                gridBody.innerHTML = '';
+
+                forms.forEach(function (x, i) {
+                    var tr = document.createElement("tr"),
+                        tdNombre = document.createElement("td"),
+                        tdApellido = document.createElement("td"),
+                        tdProvincia = document.createElement("td"),
+                        tdNivel = document.createElement("td"),
+                        tdRemove = document.createElement("td"),
+                        btnRemove = document.createElement("button");
+
+                    tdNombre.innerHTML = x.nombre;
+                    tdApellido.innerHTML = x.apellido;
+                    tdProvincia.innerHTML = x.provincia;
+                    tdNivel.innerHTML = x.nivelacad;
+
+
+                    btnRemove.textContent = 'Remover';
+                    btnRemove.className = 'btn btn-xs btn-danger';
+                    btnRemove.addEventListener('click', function(){
+                        removerLocalStorage(i);
+                    });
+
+                    tdRemove.appendChild(btnRemove);
+
+                    tr.appendChild(tdNombre);
+                    tr.appendChild(tdApellido);
+                    tr.appendChild(tdProvincia);
+                    tr.appendChild(tdNivel);
+                    tr.appendChild(tdRemove);
+
+                    gridBody.appendChild(tr);
+                });
+            }
+
+            function removerLocalStorage(index){
+                var forms = [],
+                    dataInLocalStorage = localStorage.getItem(localStorageKeyName);
+
+                forms = JSON.parse(dataInLocalStorage);
+
+                forms.splice(index, 1);
+
+                localStorage.setItem(localStorageKeyName, JSON.stringify(forms));
+
+                cargarLocalStorage();
             }
         }
 
+    </script>
 
+    <script>
 
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        function init() {
+
+            if(navigator.onLine == true){
+                localStorage.setItem("loggedUser",readCookie("loggedUser"));
+            }
+            getlocation();
+            formCRUD();
+
+            $("#actualizarG").click(function(){
+                getlocation();
+            });
+
+        };
 
     </script>
 
 </head>
 
-<body>
+<body onload="init()">
     <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
         <div class="wrapper wrapper--w790">
             <div class="card card-5">
@@ -82,7 +213,7 @@
 
                 </div>
                 <div class="card-body">
-                    <form method="post" action="">
+                   <!-- <form method="post" action=""> -->
                         <div class="form-row m-b-55">
                             <div class="name">Ubicacion</div>
                             <div class="value">
@@ -99,6 +230,9 @@
                                             <label class="label--desc">Latitud</label>
                                         </div>
                                     </div>
+                                    <div class="btn-div">
+                                        <button class="btn btn--radius-2 btn--red" id="actualizarG">Actualizar</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -110,13 +244,13 @@
                                 <div class="row row-space">
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="first_name">
+                                            <input class="input--style-5" type="text" name="first_name" id="first_name">
                                             <label class="label--desc">Nombre</label>
                                         </div>
                                     </div>
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="last_name">
+                                            <input class="input--style-5" type="text" name="last_name" id="last_name">
                                             <label class="label--desc">Apellido</label>
                                         </div>
                                     </div>
@@ -130,8 +264,8 @@
                             <div class="name">Provincia</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="subject">
+                                    <div class="rs-select2 js-select-simple select2-search">
+                                        <select name="subject" id="subject">
                                             <option disabled="disabled" selected="selected">Elegir</option>
                                             <option>Duarte</option>
                                             <option>Dajabón</option>
@@ -161,8 +295,8 @@
                             <div class="name">Nivel academico</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="subject">
+                                    <div class="rs-select2 js-select-simple select2-search">
+                                        <select name="nivelacad" id="nivelacad">
                                             <option disabled="disabled" selected="selected">Elegir</option>
                                             <option>Basico</option>
                                             <option>Medio</option>
@@ -179,16 +313,33 @@
 
 
                         <div class="btn-div">
-                            <button class="btn btn--radius-2 btn--red" type="submit">Enviar</button>
+                            <button class="btn btn--radius-2 btn--red" id="submit">Enviar</button>
                         </div>
-                    </form>
+                   <!-- --> </form>
                 </div>
             </div>
+            <br>
             <div class="card card-5">
                 <div class="card-heading">
-                    <a><h2 class="title">Ver ubicacion de registros</h2></a>
                     <a><h2 class="title">Formularios guardados</h2></a>
-                    <a><h2 class="title">Nuevo usuario</h2></a>
+                </div>
+                <div class="card-body">
+
+                    <table id="grid" class="table table-striped">
+
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Provincia</th>
+                            <th>Nivel Acad.</th>
+                            <th style="width:80px;">
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
 
                 </div>
             </div>

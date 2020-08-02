@@ -52,15 +52,21 @@ public class Main {
                 ctx.render("public/login/index.html", modelo);
             }else{
                 Usuario logged = UsuarioServices.getInstancia().find(user);
-                ctx.sessionAttribute("loggedUser", logged);
-                ctx.redirect("public/form/index.html");
+                ctx.cookie("loggedUser", logged.getUsername());
+                ctx.redirect("/form/index.html");
             }
 
         });
 
+        app.get("/formulario", ctx -> {
+            Map<String, Object> modelo = new HashMap<>();
+            modelo.put("usuario", ctx.sessionAttribute("loggedUser"));
+            ctx.render("public/form/index.html");
+        });
+
         app.post("/newFormulario", ctx -> {
             String nombre, apellido, provincia, nivelAcad, longitud, latitud;
-            Usuario usuario = ctx.sessionAttribute("loggedUser");
+            Usuario usuario = UsuarioServices.getInstancia().find(ctx.cookie("loggedUser"));
 
             longitud = ctx.formParam("longitud");
             latitud = ctx.formParam("latitud");
