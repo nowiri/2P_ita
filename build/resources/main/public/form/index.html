@@ -63,16 +63,8 @@
         <div class="wrapper wrapper--w790">
             <div class="card card-5">
                 <div class="card-heading">
-                    <h2 class="title">Encuesta de nivel educativo</h2>
-<!--                   Drop Down menu-->
-                    <div class="dropdown">
-                        <button class="dropbtn"><i class="material-icons md-48">menu</i></button>
-                        <div class="dropdown-content">
-                            <a href="#">Ver registros</a>
-                            <a href="#">Link 2</a>
-                            <a href="#">Link 3</a>
-                        </div>
-                    </div>
+                    <h2 class="title" th:text="${titulo}">Encuesta de nivel educativo</h2>
+
                 </div>
                 <div class="card-body">
                     <form method="POST" action="/newFormulario">
@@ -83,13 +75,13 @@
                                 <div class="row row-space">
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="longitud" id="longitud" readonly>
+                                            <input class="input--style-5" type="text" name="longitud" id="longitud" readonly  th:value="${longitud}">
                                             <label class="label--desc">Longitud</label>
                                         </div>
                                     </div>
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="latitud" id="latitud" readonly>
+                                            <input class="input--style-5" type="text" name="latitud" id="latitud" readonly th:value="${latitud}">
                                             <label class="label--desc">Latitud</label>
                                         </div>
                                     </div>
@@ -99,18 +91,18 @@
 
 
                         <div class="form-row m-b-55">
-                            <div class="name">Nombre</div>
+                            <div class="name">Nombre del encuestado</div>
                             <div class="value">
                                 <div class="row row-space">
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="first_name">
+                                            <input class="input--style-5" type="text" name="first_name" th:value="${nombre}">
                                             <label class="label--desc">Nombre</label>
                                         </div>
                                     </div>
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="last_name">
+                                            <input class="input--style-5" type="text" name="last_name" th:value="${apellido}">
                                             <label class="label--desc">Apellido</label>
                                         </div>
                                     </div>
@@ -126,7 +118,7 @@
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select name="subject">
-                                            <option disabled="disabled" selected="selected">Elegir</option>
+                                            <option disabled="disabled" selected="selected" th:value="${provincia}">Elegir</option>
                                             <option>Duarte</option>
                                             <option>Dajabón</option>
                                             <option>Espaillat</option>
@@ -150,38 +142,40 @@
 
                         <!--  Radio buttons -->
 
-                        <div class="form-row p-t-20 ">
-                            <label class="label label--block">Grado academico</label>
-                            <div class="p-t-15 ">
-                                <label class="radio-container m-r-100-b ">Basico
-                                    <input type="radio" checked="checked" name="nivelacad" value="Basico">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="radio-container m-r-100-b ">Medio
-                                    <input type="radio" name="nivelacad" value="Medio">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="radio-container m-r-100-b ">Grado universitario
-                                    <input type="radio" name="nivelacad" value="Grado Universitario">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="radio-container m-r-100-b ">Postgrado
-                                    <input type="radio" name="nivelacad" value="Postgrado">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="radio-container m-r-100-b ">Doctorado
-                                    <input type="radio" name="nivelacad" value="Doctorado">
-                                    <span class="checkmark"></span>
-                                </label>
+                        <!-- lista de productos, en el select -->
+                        <div class="form-row">
+                            <div class="name">Nivel academico</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="subject">
+                                            <option disabled="disabled" selected="selected" th:value="${nivelacad}">Elegir</option>
+                                            <option>Basico</option>
+                                            <option>Medio</option>
+                                            <option>Grado Universitaro</option>
+                                            <option>Postgrado</option>
+                                            <option>Doctorado</option>
+
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
 
-
                         <div class="btn-div">
-                            <button class="btn btn--radius-2 btn--red" type="submit">Enviar</button>
+                            <button class="btn btn--radius-2 btn--red" type="submit" th:value="${boton}">Enviar</button>
                         </div>
                     </form>
+                </div>
+            </div>
+            <div class="card card-5">
+                <div class="card-heading">
+                    <a><h2 class="title">Ver ubicacion de registros</h2></a>
+                    <a><h2 class="title">Formularios guardados</h2></a>
+                    <a><h2 class="title">Nuevo usuario</h2></a>
+
                 </div>
             </div>
         </div>

@@ -51,10 +51,9 @@ public class Main {
 
                 ctx.render("public/login/index.html", modelo);
             }else{
-                //TODO: LOGIN SUCCESFUL
                 Usuario logged = UsuarioServices.getInstancia().find(user);
                 ctx.sessionAttribute("loggedUser", logged);
-                ctx.redirect("/form/index.html");
+                ctx.redirect("public/form/index.html");
             }
 
         });

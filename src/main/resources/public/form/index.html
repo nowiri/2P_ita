@@ -63,7 +63,7 @@
         <div class="wrapper wrapper--w790">
             <div class="card card-5">
                 <div class="card-heading">
-                    <h2 class="title" th:text="${titulo}">Encuesta de nivel educativo</h2>
+                    <h2 class="title">Encuesta de nivel educativo</h2>
 
                 </div>
                 <div class="card-body">
@@ -75,13 +75,13 @@
                                 <div class="row row-space">
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="longitud" id="longitud" readonly  th:value="${longitud}">
+                                            <input class="input--style-5" type="text" name="longitud" id="longitud" readonly>
                                             <label class="label--desc">Longitud</label>
                                         </div>
                                     </div>
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="latitud" id="latitud" readonly th:value="${latitud}">
+                                            <input class="input--style-5" type="text" name="latitud" id="latitud" readonly >
                                             <label class="label--desc">Latitud</label>
                                         </div>
                                     </div>
@@ -96,13 +96,13 @@
                                 <div class="row row-space">
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="first_name" th:value="${nombre}">
+                                            <input class="input--style-5" type="text" name="first_name">
                                             <label class="label--desc">Nombre</label>
                                         </div>
                                     </div>
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="last_name" th:value="${apellido}">
+                                            <input class="input--style-5" type="text" name="last_name">
                                             <label class="label--desc">Apellido</label>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select name="subject">
-                                            <option disabled="disabled" selected="selected" th:value="${provincia}">Elegir</option>
+                                            <option disabled="disabled" selected="selected">Elegir</option>
                                             <option>Duarte</option>
                                             <option>Dajabón</option>
                                             <option>Espaillat</option>
@@ -149,7 +149,7 @@
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select name="subject">
-                                            <option disabled="disabled" selected="selected" th:value="${nivelacad}">Elegir</option>
+                                            <option disabled="disabled" selected="selected">Elegir</option>
                                             <option>Basico</option>
                                             <option>Medio</option>
                                             <option>Grado Universitaro</option>
@@ -165,7 +165,7 @@
 
 
                         <div class="btn-div">
-                            <button class="btn btn--radius-2 btn--red" type="submit" th:value="${boton}">Enviar</button>
+                            <button class="btn btn--radius-2 btn--red" type="submit">Enviar</button>
                         </div>
                     </form>
                 </div>
