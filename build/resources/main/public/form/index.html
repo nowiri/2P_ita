@@ -27,11 +27,10 @@
     <!-- Main CSS-->
     <link href="../form/css/main.css" rel="stylesheet" media="all">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
     <script src="../form/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Geoloaction -->
     <script>
         var id, cantidad = 0;
         //Indica las opciones para llamar al GPS.
@@ -60,6 +59,7 @@
         };
     </script>
 
+    <!-- FORMS CRUD -->
     <script>
 
         function  formCRUD(){
@@ -76,8 +76,8 @@
                     nivelAcad = document.getElementById("nivelacad"),
                     usuario = localStorage.getItem("loggedUser");
 
-                // Validate
-                //if (name.value.length === 0 || job.value.length === 0 || !parseInt(age.value)) return;
+                // Validar
+                if (nombre.value.length === 0 || apellido.value.length === 0 || provincia.value === 'Elegir'|| nivelAcad.value === 'Elegir') return;
 
                 var formulario = {
                     longitud: longitud.value,
@@ -92,6 +92,8 @@
                 // Clean data
                 nombre.value = '';
                 apellido.value = '';
+                provincia.selectedIndex = "0";
+                nivelAcad.selectedIndex = "0";
 
                 // Append to my localStorage
                 agregarLocalStorage(formulario);
@@ -140,7 +142,7 @@
 
 
                     btnRemove.textContent = 'Remover';
-                    btnRemove.className = 'btn btn-xs btn-danger';
+                    btnRemove.className = 'btn btn--red';
                     btnRemove.addEventListener('click', function(){
                         removerLocalStorage(i);
                     });
@@ -173,6 +175,55 @@
 
     </script>
 
+    <!--Connectivity Check -->
+    <script>
+
+        function checkcon() {
+            setInterval(function () {
+                var ifConnected = window.navigator.onLine;
+                if (ifConnected) {
+                    document.getElementById("checkOnline").innerHTML = "Online";
+                    document.getElementById("checkOnline").style.color = "green";
+                    document.getElementById("sync").style.visibility = 'visible';
+                } else {
+                    document.getElementById("checkOnline").innerHTML = "Offline";
+                    document.getElementById("checkOnline").style.color = "red";
+                    document.getElementById("sync").style.visibility = 'hidden';
+                }
+            }, 3000);
+        }
+
+    </script>
+
+    <!-- Data Sync -->
+    <script src="../form/js/jquery-3.2.1.min.js">
+        function sync(){
+            let webSocket;
+            conectar();
+            var dataInLocalStorage = localStorage.getItem("forms");
+
+            if (dataInLocalStorage !== null || dataInLocalStorage === "") {
+                //var worker = new Worker('../form/js/webworker.js');
+                //worker.postMessage({'cmd': 'sincronizar', 'stg': dataInLocalStorage});
+                webSocket.send(dataInLocalStorage.length)
+                localStorage.removeItem("forms");
+            }else{
+                console.log("Nada que sincronizar . . .")
+            }
+            formCRUD();
+            webSocket.close();
+        }
+
+        function conectar() {
+            webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
+            webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
+            webSocket.onclose = function(e){
+                console.log("Desconectado - status "+this.readyState);
+            };
+        }
+    </script>
+
+    <!--INIT-->
     <script>
 
         function readCookie(name) {
@@ -193,9 +244,14 @@
             }
             getlocation();
             formCRUD();
+            checkcon();
 
             $("#actualizarG").click(function(){
                 getlocation();
+            });
+
+            $("#sync").click(function(){
+                sync();
             });
 
         };
@@ -264,7 +320,7 @@
                             <div class="name">Provincia</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select--no-search">
+                                    <div class="rs-select2 js-select-simple select2-search">
                                         <select name="subject" id="subject">
                                             <option disabled="disabled" selected="selected">Elegir</option>
                                             <option>Duarte</option>
@@ -295,7 +351,7 @@
                             <div class="name">Nivel academico</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select--no-search">
+                                    <div class="rs-select2 js-select-simple select2-search">
                                         <select name="nivelacad" id="nivelacad">
                                             <option disabled="disabled" selected="selected">Elegir</option>
                                             <option>Basico</option>
@@ -319,13 +375,28 @@
                 </div>
             </div>
             <br>
+            <!-- 2nd Card -->
             <div class="card card-5">
+                <style>
+                    table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    }
+
+                    th, td {
+                    text-align: left;
+                    padding: 8px;
+                    }
+
+                    tr:nth-child(even) {background-color: #f2f2f2;}
+                </style>
+
                 <div class="card-heading">
                     <a><h2 class="title">Formularios guardados</h2></a>
                 </div>
                 <div class="card-body">
 
-                    <table id="grid" class="table table-striped">
+                    <table id="grid" class="tabl">
 
                         <thead>
                         <tr>
@@ -339,6 +410,11 @@
                         </thead>
                         <tbody></tbody>
                     </table>
+
+                    <div class="zmdi-format-align-center">
+                        <button class="btn btn--radius-2 btn--red" id="sync">Sincronizar</button>
+                        <p id="checkOnline"></p>
+                    </div>
 
 
                 </div>

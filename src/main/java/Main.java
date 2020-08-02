@@ -85,6 +85,33 @@ public class Main {
 
         });
 
+        app.ws("/sincronizarForms", ws -> {
+
+            ws.onConnect(ctx -> {
+                System.out.println("Conexión Iniciada - "+ctx.getSessionId());
+            });
+
+            ws.onMessage(ctx -> {
+                System.out.println("Mensaje Recibido de "+ctx.getSessionId()+" ====== ");
+                System.out.println("Mensaje: "+ctx.message());
+                System.out.println("================================");
+            });
+
+            ws.onBinaryMessage(ctx -> {
+                System.out.println("Mensaje Recibido Binario "+ctx.getSessionId()+" ====== ");
+                System.out.println("Mensaje: "+ctx.data().length);
+                System.out.println("================================");
+            });
+
+            ws.onClose(ctx -> {
+                System.out.println("Conexión Cerrada - "+ctx.getSessionId());
+            });
+
+            ws.onError(ctx -> {
+                System.out.println("Ocurrió un error en el WS");
+            });
+        });
+
     }
 
 }
