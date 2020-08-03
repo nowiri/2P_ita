@@ -23,7 +23,7 @@ public class Main {
         //JAVALIN INIT
         Javalin app = Javalin.create(config -> {
             config.addStaticFiles("/public"); //STATIC FILES -> /resources/public
-        }).start(7000);
+        }).start(8000);
 
         //REGISTER THYMELEAF IN JAVALIN
         JavalinRenderer.register(JavalinThymeleaf.INSTANCE, ".html");
