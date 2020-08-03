@@ -12,6 +12,7 @@ import services.UbicacionServices;
 import services.UsuarioServices;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -134,7 +135,14 @@ public class Main {
 
         app.get("/mapas", ctx -> {
             Map<String, Object> modelo = new HashMap<>();
-            modelo.put("klk", "uaaaaa!!");
+
+            List<Ubicacion> ubicaciones = UbicacionServices.getInstancia().findAll();
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(ubicaciones);
+            //System.out.println(jsonString);
+
+            modelo.put("ubicaciones", jsonString);
+
             ctx.render("public/mapas/index.html", modelo);
         });
 
