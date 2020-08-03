@@ -185,10 +185,12 @@
                     document.getElementById("checkOnline").innerHTML = "Online";
                     document.getElementById("checkOnline").style.color = "green";
                     document.getElementById("sync").style.visibility = 'visible';
+                    document.getElementById("ddregistros").style.visibility = 'visible';
                 } else {
                     document.getElementById("checkOnline").innerHTML = "Offline";
                     document.getElementById("checkOnline").style.color = "red";
                     document.getElementById("sync").style.visibility = 'hidden';
+                    document.getElementById("ddregistros").style.visibility = 'hidden';
                 }
             }, 3000);
         }
@@ -279,6 +281,9 @@
             if(navigator.onLine == true){
                 localStorage.setItem("loggedUser",readCookie("loggedUser"));
             }
+            if(localStorage.getItem("loggedUser") !== "admin"){
+                document.getElementById("ddusuario").style.visibility = 'hidden';
+            }
             getlocation();
             formCRUD();
             checkcon();
@@ -295,6 +300,7 @@
 
     </script>
 
+    <!--Drop Down-->
     <script>
     function myFunctionDrop() {
         document.getElementById("myDropdown").classList.toggle("show");
@@ -326,9 +332,8 @@
                     <div class="dropdown">
                         <button onclick="myFunctionDrop()" class="dropbtn" style="color:white;"><i class="material-icons md-48">menu</i></button>
                         <div id="myDropdown" class="dropdown-content">
-                            <a href="#" style="visibility: hidden">Ver ubicacion de registros</a>
-                            <a href="#">Formularios guardados</a>
-                            <a href="#">Nuevo usuario</a>
+                            <a href="#" id="ddregistros">Ver ubicacion de registros</a>
+                            <a href="#" id="ddusuario">Nuevo usuario</a>
                         </div>
                     </div>
                 </div>
