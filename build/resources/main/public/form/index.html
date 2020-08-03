@@ -27,10 +27,7 @@
     <!-- Main CSS-->
     <link href="../form/css/main.css" rel="stylesheet" media="all">
 
-
     <script src="../form/js/jquery-3.2.1.min.js"></script>
-
-    <!-- Geoloaction -->
     <script>
         var id, cantidad = 0;
         //Indica las opciones para llamar al GPS.
@@ -40,7 +37,7 @@
             maximumAge: 0
         }
 
-        function getlocation(){
+        $(document).ready(function(){
 
             //Obteniendo la referencia directa.
             navigator.geolocation.getCurrentPosition(function(geodata){
@@ -339,13 +336,13 @@
                                 <div class="row row-space">
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="first_name" id="first_name">
+                                            <input class="input--style-5" type="text" name="first_name" th:value="${nombre}">
                                             <label class="label--desc">Nombre</label>
                                         </div>
                                     </div>
                                     <div class="col-2">
                                         <div class="input-group-desc">
-                                            <input class="input--style-5" type="text" name="last_name" id="last_name">
+                                            <input class="input--style-5" type="text" name="last_name" th:value="${apellido}">
                                             <label class="label--desc">Apellido</label>
                                         </div>
                                     </div>
@@ -359,9 +356,9 @@
                             <div class="name">Provincia</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select2-search">
-                                        <select name="subject" id="subject">
-                                            <option disabled="disabled" selected="selected">Elegir</option>
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="subject">
+                                            <option disabled="disabled" selected="selected" th:value="${provincia}">Elegir</option>
                                             <option>Duarte</option>
                                             <option>Dajabón</option>
                                             <option>Espaillat</option>
@@ -390,9 +387,9 @@
                             <div class="name">Nivel academico</div>
                             <div class="value">
                                 <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select2-search">
-                                        <select name="nivelacad" id="nivelacad">
-                                            <option disabled="disabled" selected="selected">Elegir</option>
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="subject">
+                                            <option disabled="disabled" selected="selected" th:value="${nivelacad}">Elegir</option>
                                             <option>Basico</option>
                                             <option>Medio</option>
                                             <option>Grado Universitaro</option>
@@ -408,53 +405,16 @@
 
 
                         <div class="btn-div">
-                            <button class="btn btn--radius-2 btn--red" id="submit">Enviar</button>
+                            <button class="btn btn--radius-2 btn--red" type="submit" th:value="${boton}">Enviar</button>
                         </div>
-                   <!-- --> </form>
+                    </form>
                 </div>
             </div>
-            <br>
-            <!-- 2nd Card -->
             <div class="card card-5">
-                <style>
-                    table {
-                    border-collapse: collapse;
-                    width: 100%;
-                    }
-
-                    th, td {
-                    text-align: left;
-                    padding: 8px;
-                    }
-
-                    tr:nth-child(even) {background-color: #f2f2f2;}
-                </style>
-
                 <div class="card-heading">
+                    <a><h2 class="title">Ver ubicacion de registros</h2></a>
                     <a><h2 class="title">Formularios guardados</h2></a>
-                </div>
-                <div class="card-body">
-
-                    <table id="grid" class="tabl">
-
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Provincia</th>
-                            <th>Nivel Acad.</th>
-                            <th style="width:80px;">
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-
-                    <div class="zmdi-format-align-center">
-                        <button class="btn btn--radius-2 btn--red" id="sync">Sincronizar</button>
-                        <p id="checkOnline"></p>
-                    </div>
-
+                    <a><h2 class="title">Nuevo usuario</h2></a>
 
                 </div>
             </div>
