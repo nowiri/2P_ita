@@ -34,7 +34,7 @@
 			<div class="wrap-login100 p-t-85 p-b-20">
 				<form class="login100-form validate-form" action="/login" method="post">
 					<span class="login100-form-title p-b-70">
-						Bienvenido!
+						Registrar Usuarios
 					</span>
 					<span class="login100-form-avatar">
 						<img src="../login/images/avatar-01.png" alt="AVATAR">
@@ -42,7 +42,7 @@
 					<div class = "error">
 						<span th:text="${msg}"></span>
 					</div>
-					<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Entre un usuario">
+					<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Entre un nombre">
 						<input class="input100" type="text" name="name">
 						<span class="focus-input100" data-placeholder="Nombre"></span>
 					</div>
@@ -57,13 +57,20 @@
 						<span class="focus-input100" data-placeholder="Contrasena"></span>
 					</div>
 
+					<div class="wrap-input100 validate-input  m-b-35" data-validate = "Entre un usuario">
+						<input type="radio" id="admin" name="rol" value="male">
+						<label class="radio-label" for="admin" style="font-size: 18px;margin-left: 3px;margin-right: 15px; color: #999999;"><strong>Administrador</strong></label>
+						<input  type="radio" id="voluntario" name="rol" value="male">
+						<label class="radio-label" for="voluntario" style=" font-size: 18px;margin-left: 3px; margin-right: 15px; color: #999999;"><strong>Voluntario</strong></label>
+					</div>
+
 
 
 
 
 
 						<div class = "container-login100-form-btn">
-							<button class="btn btn--radius-2 btn--red" type="submit">Entrar</button>
+							<button class="btn btn--radius-2 btn--red" type="submit">Registrar</button>
 						</div>
 
 
