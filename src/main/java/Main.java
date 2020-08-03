@@ -1,3 +1,4 @@
+import encapsulaciones.DataWS;
 import encapsulaciones.Formulario;
 import encapsulaciones.Ubicacion;
 import encapsulaciones.Usuario;
@@ -95,6 +96,8 @@ public class Main {
                 System.out.println("Mensaje Recibido de "+ctx.getSessionId()+" ====== ");
                 System.out.println("Mensaje: "+ctx.message());
                 System.out.println("================================");
+
+
             });
 
             ws.onBinaryMessage(ctx -> {

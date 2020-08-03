@@ -196,31 +196,72 @@
     </script>
 
     <!-- Data Sync -->
-    <script src="../form/js/jquery-3.2.1.min.js">
+    <script>
         function sync(){
             let webSocket;
-            conectar();
-            var dataInLocalStorage = localStorage.getItem("forms");
+            webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
+            webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
+            webSocket.onclose = function(e) {
+                console.log("Desconectado - status " + this.readyState);
+            }
+
+            var forms = [],
+                dataInLocalStorage = localStorage.getItem("forms");
+
+
+
 
             if (dataInLocalStorage !== null || dataInLocalStorage === "") {
                 //var worker = new Worker('../form/js/webworker.js');
                 //worker.postMessage({'cmd': 'sincronizar', 'stg': dataInLocalStorage});
-                webSocket.send(dataInLocalStorage.length)
-                localStorage.removeItem("forms");
+
+                sendMessage(dataInLocalStorage);
+
+                // forms = JSON.parse(dataInLocalStorage);
+                // forms.forEach(myFunction)
+                //
+                // function myFunction(item, index, arr) {
+                //     sendMessage(item);
+                // }
+
             }else{
                 console.log("Nada que sincronizar . . .")
             }
             formCRUD();
-            webSocket.close();
+
+            setTimeout(function () {
+                webSocket.close();
+            },500);
+
+            localStorage.removeItem("forms");
+
+            function sendMessage(msg){
+                // Wait until the state of the socket is not ready and send the message when it is...
+                waitForSocketConnection(webSocket, function(){
+                    console.log("message sent!!!");
+                    webSocket.send(msg);
+                });
+            }
+
+            // Make the function wait until the connection is made...
+            function waitForSocketConnection(socket, callback){
+                setTimeout(
+                    function () {
+                        if (socket.readyState === 1) {
+                            console.log("Connection is made")
+                            if (callback != null){
+                                callback();
+                            }
+                        } else {
+                            console.log("wait for connection...")
+                            waitForSocketConnection(socket, callback);
+                        }
+
+                    }, 5); // wait 5 milisecond for the connection...
+            }
+
         }
 
-        function conectar() {
-            webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
-            webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
-            webSocket.onclose = function(e){
-                console.log("Desconectado - status "+this.readyState);
-            };
-        }
     </script>
 
     <!--INIT-->
