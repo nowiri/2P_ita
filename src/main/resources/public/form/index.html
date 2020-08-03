@@ -217,19 +217,19 @@
                 forms.forEach(myFunction)
 
                 function myFunction(item, index, arr) {
-                     sendMessage(JSON.stringify(item));
-                 }
+                    sendMessage(JSON.stringify(item));
+                }
 
             }else{
                 console.log("Nada que sincronizar . . .")
             }
-            formCRUD();
 
             setTimeout(function () {
                 webSocket.close();
             },500);
 
             localStorage.removeItem("forms");
+            formCRUD();
 
             function sendMessage(msg){
                 // Wait until the state of the socket is not ready and send the message when it is...

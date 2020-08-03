@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import encapsulaciones.DataWS;
 import encapsulaciones.Formulario;
 import encapsulaciones.Ubicacion;
@@ -97,6 +98,22 @@ public class Main {
                 System.out.println("Mensaje: "+ctx.message());
                 System.out.println("================================");
 
+                Gson g = new Gson();
+                DataWS dws = g.fromJson(ctx.message(), DataWS.class);
+
+                String nombre = dws.getNombre()+" "+dws.getApellido();
+                String latitud = dws.getLatitud();
+                String longitud = dws.getLongitud();
+                String provincia = dws.getProvincia();
+                String nivelacad = dws.getNivelacad();
+                String usuario = dws.getUsuario();
+
+                Usuario Usuario = UsuarioServices.getInstancia().find(usuario);
+                Formulario form = new Formulario(nombre,provincia,nivelacad,Usuario);
+                FormularioServices.getInstancia().crear(form);
+
+                Ubicacion ubicacion = new Ubicacion(longitud,latitud,form);
+                UbicacionServices.getInstancia().crear(ubicacion);
 
             });
 
