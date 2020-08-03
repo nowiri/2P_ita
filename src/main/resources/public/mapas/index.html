@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>PARCIAL2</title>
+
+    <!-- Icons font CSS-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <link href="../mapas/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="../mapas/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="../mapas/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="../mapas/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+    <style type="text/css">
+          #map{  margin:0 auto;
+   width:100%;
+   max-width:800px;
+   height:50vh;
+   min-height:250px; }
+        </style>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8nDfAqWHgFLXX6EhirE41GE4qDhZ1G_4"></script>
+    <title>Save Marker Example</title>
+    <!-- Main CSS-->
+    <link href="../mapas/css/main.css" rel="stylesheet" media="all">
+
+    <script src="../mapas/js/jquery-3.2.1.min.js"></script>
+    <script>
+        var id, cantidad = 0;
+        //Indica las opciones para llamar al GPS.
+        var opcionesGPS = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        }
+
+        $(document).ready(function(){
+
+            //Obteniendo la referencia directa.
+            navigator.geolocation.getCurrentPosition(function(geodata){
+                var coordenadas = geodata.coords;
+
+                var element = document.getElementById("longitud");
+                element.value = coordenadas.longitude;
+                element = document.getElementById("latitud");
+                element.value = coordenadas.latitude;
+
+                $("#posicionGps").text("Latitud: "+coordenadas.latitude+", Longitud: "+coordenadas.longitude+", Precisión: "+coordenadas.accuracy+" metros");
+            }, function(){
+                $("#posicionGps").text("No permite el acceso del API GEO");
+            }, opcionesGPS);
+
+        });
+    </script>
+
+    <script>
+        class Formulario {
+            constructor(nombre, sector, nivelEscolar, usuario) {
+                this.nombre = nombre;
+                this.sector = sector;
+                this.nivelEscolar = nivelEscolar;
+                this.usuario = usuario;
+            }
+        }
+
+
+
+
+    </script>
+
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">Ubicaciones Registros</h2>
+                </div>
+                <div class="card-body">
+                        <div class="form-row ">
+
+
+                            <!--map div-->
+                            <div id="map"></div>
+
+                            <!--our form-->
+                            <form method="post">
+                                <input type="text" id="lat" readonly="yes"><br>
+                                <input type="text" id="lng" readonly="yes">
+                            </form>
+
+                            <button id="myBtn" class="btn btn--radius-2 btn--red" type="submit"  showDirections> </button>
+
+
+                            <script type="text/javascript" src="../mapas/js/map.js"></script>
+                        </div>
+                </div>
+            </div>
+            <div class="card card-5">
+                <div class="card-heading">
+                    <a><h2 class="title">Ver ubicacion de registros</h2></a>
+                    <a><h2 class="title">Formularios guardados</h2></a>
+                    <a><h2 class="title">Nuevo usuario</h2></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery JS-->
+    <script src="../mapas/vendor/jquery/jquery.min.js"></script>
+    <!-- Vendor JS-->
+    <script src="../mapas/vendor/select2/select2.min.js"></script>
+    <script src="../mapas/vendor/datepicker/moment.min.js"></script>
+    <script src="../mapas/vendor/datepicker/daterangepicker.js"></script>
+
+    <!-- Main JS-->
+    <script src="../mapas/js/global.js"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->
