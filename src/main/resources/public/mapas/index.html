@@ -36,48 +36,6 @@
     <link href="../mapas/css/main.css" rel="stylesheet" media="all">
 
     <script src="../mapas/js/jquery-3.2.1.min.js"></script>
-    <script>
-        var id, cantidad = 0;
-        //Indica las opciones para llamar al GPS.
-        var opcionesGPS = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        }
-
-        $(document).ready(function(){
-
-            //Obteniendo la referencia directa.
-            navigator.geolocation.getCurrentPosition(function(geodata){
-                var coordenadas = geodata.coords;
-
-                var element = document.getElementById("longitud");
-                element.value = coordenadas.longitude;
-                element = document.getElementById("latitud");
-                element.value = coordenadas.latitude;
-
-                $("#posicionGps").text("Latitud: "+coordenadas.latitude+", Longitud: "+coordenadas.longitude+", Precisión: "+coordenadas.accuracy+" metros");
-            }, function(){
-                $("#posicionGps").text("No permite el acceso del API GEO");
-            }, opcionesGPS);
-
-        });
-    </script>
-
-    <script>
-        class Formulario {
-            constructor(nombre, sector, nivelEscolar, usuario) {
-                this.nombre = nombre;
-                this.sector = sector;
-                this.nivelEscolar = nivelEscolar;
-                this.usuario = usuario;
-            }
-        }
-
-
-
-
-    </script>
 
 </head>
 
@@ -86,11 +44,19 @@
         <div class="wrapper wrapper--w790">
             <div class="card card-5">
                 <div class="card-heading">
-                    <h2 class="title">Ubicaciones Registros</h2>
+                    <h2 class="title">Ubicaciones</h2>
+                    <div class="dropdown">
+                        <button onclick="myFunction()" class="dropbtn" style="color:white;"><i class="material-icons md-48">menu</i></button>
+                        <div id="myDropdown" class="dropdown-content">
+                            <a href="#">Ver ubicacion de registros</a>
+                            <a href="#">Formularios guardados</a>
+                            <a href="#">Nuevo usuario</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                         <div class="form-row ">
-
+                            <h2 class="title" style="color: black;">Encuestas</h2>
 
                             <!--map div-->
                             <div id="map"></div>
@@ -106,14 +72,6 @@
 
                             <script type="text/javascript" src="../mapas/js/map.js"></script>
                         </div>
-                </div>
-            </div>
-            <div class="card card-5">
-                <div class="card-heading">
-                    <a><h2 class="title">Ver ubicacion de registros</h2></a>
-                    <a><h2 class="title">Formularios guardados</h2></a>
-                    <a><h2 class="title">Nuevo usuario</h2></a>
-
                 </div>
             </div>
         </div>
