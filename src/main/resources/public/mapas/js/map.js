@@ -1,24 +1,29 @@
- 
-//Set up some of our variables.
+
+Set up some of our variables.
 var map; //Will contain map object.
-var marker = false; ////Has the user plotted their location marker? 
-        
+var marker = false; ////Has the user plotted their location marker?
+
 //Function called to initialize / create the map.
 //This is called when the page has loaded.
-function initMap() {
- 
+function initMap(forms) {
+
+    console.log(forms)
+    console.log(forms[0].latitud);
+    console.log(forms[0].longitud);
+    console.log(forms[0].formulario.sector);
+
     //The center location of our map.
     var centerOfMap = new google.maps.LatLng(19.220847542987812, -70.52509807102038);
- 
+
     //Map options.
     var options = {
       center: centerOfMap, //Set center.
       zoom: 8 //The zoom value.
     };
- 
+
     //Create the map object.
     map = new google.maps.Map(document.getElementById('map'), options);
- 
+
     //Listen for any clicks on the map.
 //    google.maps.event.addListener(map, 'click', function(event) {
 //        //Get the location that the user clicked.
@@ -45,7 +50,7 @@ function initMap() {
 //    });
     multipleDirections(map);
 }
-        
+
 //This function will get the marker's current location and then add the lat/long
 //values to our textfields so that we can save the location.
 function markerLocation(){
@@ -122,6 +127,6 @@ window.onclick = function(event) {
 }
 
 document.getElementById("myBtn").addEventListener("click", multipleDirections);
-        
-//Load the map when the page has finished loading.
-google.maps.event.addDomListener(window, 'load', initMap);
+
+////Load the map when the page has finished loading.
+//google.maps.event.addDomListener(window, 'load', initMap);
