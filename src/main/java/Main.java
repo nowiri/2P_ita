@@ -139,7 +139,7 @@ public class Main {
             List<Ubicacion> ubicaciones = UbicacionServices.getInstancia().findAll();
             Gson gson = new Gson();
             String jsonString = gson.toJson(ubicaciones);
-            //System.out.println(jsonString);
+            System.out.println(jsonString);
 
             modelo.put("ubicaciones", jsonString);
 
