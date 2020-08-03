@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <!-- Required meta tags-->
@@ -36,6 +36,11 @@
     <link href="../mapas/css/main.css" rel="stylesheet" media="all">
 
     <script src="../mapas/js/jquery-3.2.1.min.js"></script>
+
+    <script th:inline="javascript">
+        var mierda = [[${klk}]];
+        console.log(mierda);
+    </script>
 
 </head>
 

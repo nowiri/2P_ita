@@ -132,6 +132,12 @@ public class Main {
             });
         });
 
+        app.get("/mapas", ctx -> {
+            Map<String, Object> modelo = new HashMap<>();
+            modelo.put("klk", "uaaaaa!!");
+            ctx.render("public/mapas/index.html", modelo);
+        });
+
     }
 
 }
