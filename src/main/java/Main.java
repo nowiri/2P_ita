@@ -6,11 +6,13 @@ import encapsulaciones.Usuario;
 import io.javalin.Javalin;
 import io.javalin.plugin.rendering.JavalinRenderer;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
+import org.eclipse.jetty.server.UserIdentity;
 import services.DBStart;
 import services.FormularioServices;
 import services.UbicacionServices;
 import services.UsuarioServices;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,11 @@ public class Main {
         /**
          * LOGIN !
          */
+
+
+        app.get("/", ctx -> {
+            ctx.redirect("/form/index.html");
+        });
 
         app.get("/login", ctx -> {
             Map<String, Object> modelo = new HashMap<>();
@@ -144,6 +151,40 @@ public class Main {
             modelo.put("ubicaciones", jsonString);
 
             ctx.render("public/mapas/index.html", modelo);
+        });
+
+
+        app.get("/registrar", ctx -> {
+            Map<String, Object> modelo = new HashMap<>();
+//            Usuario user = UsuarioServices.getInstancia().find(ctx.sessionAttribute("loggedUser"));
+
+            modelo.put("msg","");
+            ctx.render("public/registrar/index.html", modelo);
+
+
+        });
+
+        app.post("/registrar", ctx -> {
+            Map<String, Object> modelo = new HashMap<>();
+            String nombre = ctx.formParam("name");
+            String usuario = ctx.formParam("username");
+            String contrasena = ctx.formParam("pass");
+            String rol = ctx.formParam("rol");
+
+
+            if(UsuarioServices.getInstancia().find(usuario) != null){
+                modelo.put("msg", "ERROR: EXISTE UN ESE NOMBRE DE USUARIO");
+            }else{
+                System.out.println("Entro aqui");
+                modelo.put("msg", "");
+                UsuarioServices.getInstancia().crear(new Usuario(usuario, contrasena,nombre, rol));
+            }
+
+            System.out.println(UsuarioServices.getInstancia().find(usuario));
+
+
+
+            ctx.render("public/registrar/index.html",modelo );
         });
 
     }
