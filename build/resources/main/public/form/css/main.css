@@ -408,8 +408,13 @@ h6 {
 /* ==========================================================================
    #BUTTON
    ========================================================================== */
+
+#actualizarG{
+    margin-bottom: 20px;
+}
 .btn-div{
-justify-content: center;
+align-content: center;
+
 }
 .btn {
   display: inline-block;

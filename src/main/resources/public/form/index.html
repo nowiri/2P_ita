@@ -295,6 +295,26 @@
 
     </script>
 
+    <script>
+    function myFunctionDrop() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+    }
+    }
+    </script>
+
 </head>
 
 <body onload="init()">
@@ -302,8 +322,15 @@
         <div class="wrapper wrapper--w790">
             <div class="card card-5">
                 <div class="card-heading">
-                    <h2 class="title">Encuesta de nivel educativo</h2>
-
+                    <h2 class="title">ENCUESTAS</h2>
+                    <div class="dropdown">
+                        <button onclick="myFunctionDrop()" class="dropbtn" style="color:white;"><i class="material-icons md-48">menu</i></button>
+                        <div id="myDropdown" class="dropdown-content">
+                            <a href="#" style="visibility: hidden">Ver ubicacion de registros</a>
+                            <a href="#">Formularios guardados</a>
+                            <a href="#">Nuevo usuario</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                    <!-- <form method="post" action=""> -->
@@ -323,12 +350,13 @@
                                             <label class="label--desc">Latitud</label>
                                         </div>
                                     </div>
-                                    <div class="btn-div">
-                                        <button class="btn btn--radius-2 btn--red" id="actualizarG">Actualizar</button>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
+                    <div class="btn-div">
+                        <button class="btn btn--radius-2 btn--red" id="actualizarG">Actualizar</button>
+                    </div>
 
 
                         <div class="form-row m-b-55">
@@ -418,6 +446,7 @@
                     table {
                     border-collapse: collapse;
                     width: 100%;
+                    margin-bottom: 10px;
                     }
 
                     th, td {
@@ -447,16 +476,19 @@
                         </thead>
                         <tbody></tbody>
                     </table>
-
-                    <div class="zmdi-format-align-center">
-                        <button class="btn btn--radius-2 btn--red" id="sync">Sincronizar</button>
-                        <p id="checkOnline"></p>
+                    <div class="btn-div">
+                    <button class="btn btn--radius-2 btn--red" id="sync">Sincronizar</button>
+                    <p id="checkOnline"></p>
                     </div>
-
-
                 </div>
+
+
             </div>
+
         </div>
+
+
+
     </div>
 
     <!-- Jquery JS-->
