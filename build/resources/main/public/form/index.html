@@ -278,10 +278,11 @@
 
         function init() {
 
-            if(navigator.onLine == true){
-                localStorage.setItem("loggedUser",readCookie("loggedUser"));
-            }
-            if(localStorage.getItem("loggedUser") !== "admin"){
+
+            localStorage.setItem("loggedUser",readCookie("loggedUser"));
+            localStorage.setItem("loggedRole",readCookie("loggedRole"));
+
+            if(localStorage.getItem("loggedRole") !== "Administrador"){
                 document.getElementById("ddusuario").style.visibility = 'hidden';
             }
             getlocation();
@@ -334,6 +335,7 @@
                         <div id="myDropdown" class="dropdown-content">
                             <a href="/mapas" id="ddregistros">Ver ubicacion de registros</a>
                             <a href="/registrar" id="ddusuario">Nuevo usuario</a>
+                            <a href="/login">Iniciar Sesion</a>
                         </div>
                     </div>
                 </div>
