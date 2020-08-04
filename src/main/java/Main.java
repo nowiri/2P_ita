@@ -62,8 +62,8 @@ public class Main {
                 ctx.render("public/login/index.html", modelo);
             }else{
                 Usuario logged = UsuarioServices.getInstancia().find(user);
-                ctx.cookie("loggedUser", logged.getUsername(),604800);
-                ctx.cookie("loggedRole", logged.getRole(),604800);
+                ctx.cookie("loggedUser", logged.getUsername());
+                ctx.cookie("loggedRole", logged.getRole());
                 ctx.redirect("/form/index.html");
             }
 

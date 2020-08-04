@@ -42,7 +42,6 @@
 
         function getlocation(){
 
-            //Obteniendo la referencia directa.
             navigator.geolocation.getCurrentPosition(function(geodata){
                 var coordenadas = geodata.coords;
 
@@ -278,6 +277,9 @@
 
         function init() {
 
+            if(readCookie("loggedUser") === null || readCookie("loggedUser") === null){
+                location.replace("/login");
+            }
 
             localStorage.setItem("loggedUser",readCookie("loggedUser"));
             localStorage.setItem("loggedRole",readCookie("loggedRole"));
