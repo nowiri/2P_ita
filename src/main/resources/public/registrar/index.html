@@ -26,6 +26,32 @@
 	<link rel="stylesheet" type="text/css" href="../registrar/css/util.css">
 	<link rel="stylesheet" type="text/css" href="../registrar/css/main.css">
 <!--===============================================================================================-->
+	<script>
+
+		function readCookie(name) {
+			var nameEQ = name + "=";
+			var ca = document.cookie.split(';');
+			for(var i=0;i < ca.length;i++) {
+				var c = ca[i];
+				while (c.charAt(0)==' ') c = c.substring(1,c.length);
+				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+			}
+			return null;
+		}
+
+		function verify() {
+
+			if (readCookie("loggedUser") === null || readCookie("loggedUser") === null) {
+				location.replace("/login");
+			}
+
+		}
+
+	</script>
+
+	<script>
+		verify();
+	</script>
 </head>
 <body>
 	
@@ -77,28 +103,6 @@
 
 					<p style="margin-left:6.5em"><a href="/form/index.html">Volver a pagina principal</a></p>
 
-
-<!--					<ul class="login-more p-t-190">-->
-<!--						<li class="m-b-8">-->
-<!--							<span class="txt1">-->
-<!--								Forgot-->
-<!--							</span>-->
-
-<!--							<a href="#" class="txt2">-->
-<!--								Username / Password?-->
-<!--							</a>-->
-<!--						</li>-->
-
-<!--&lt;!&ndash;						<li>&ndash;&gt;-->
-<!--&lt;!&ndash;							<span class="txt1">&ndash;&gt;-->
-<!--&lt;!&ndash;								No tienes una cuenta?&ndash;&gt;-->
-<!--&lt;!&ndash;							</span>&ndash;&gt;-->
-
-<!--&lt;!&ndash;							<a href="#" class="txt2">&ndash;&gt;-->
-<!--&lt;!&ndash;								Sign up&ndash;&gt;-->
-<!--&lt;!&ndash;							</a>&ndash;&gt;-->
-<!--&lt;!&ndash;						</li>&ndash;&gt;-->
-<!--					</ul>-->
 				</form>
 			</div>
 		</div>

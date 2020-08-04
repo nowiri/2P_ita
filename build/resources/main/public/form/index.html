@@ -200,7 +200,7 @@
     <script>
         function sync(){
             let webSocket;
-            webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
+            webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/sincronizarForms");
             webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
             webSocket.onclose = function(e) {
                 console.log("Desconectado - status " + this.readyState);
