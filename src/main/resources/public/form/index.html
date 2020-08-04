@@ -201,7 +201,7 @@
     <script>
         function sync(){
             let webSocket;
-            webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
+            webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/sincronizarForms");
             webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
             webSocket.onclose = function(e) {
                 console.log("Desconectado - status " + this.readyState);
@@ -278,10 +278,11 @@
 
         function init() {
 
-            if(navigator.onLine == true){
-                localStorage.setItem("loggedUser",readCookie("loggedUser"));
-            }
-            if(localStorage.getItem("loggedUser") !== "admin"){
+
+            localStorage.setItem("loggedUser",readCookie("loggedUser"));
+            localStorage.setItem("loggedRole",readCookie("loggedRole"));
+
+            if(localStorage.getItem("loggedRole") !== "Administrador"){
                 document.getElementById("ddusuario").style.visibility = 'hidden';
             }
             getlocation();
@@ -334,6 +335,7 @@
                         <div id="myDropdown" class="dropdown-content">
                             <a href="/mapas" id="ddregistros">Ver ubicacion de registros</a>
                             <a href="/registrar" id="ddusuario">Nuevo usuario</a>
+                            <a href="/login">Iniciar Sesion</a>
                         </div>
                     </div>
                 </div>

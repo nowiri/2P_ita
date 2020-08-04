@@ -23,7 +23,7 @@ public class Main {
         //JAVALIN INIT
         Javalin app = Javalin.create(config -> {
             config.addStaticFiles("/public"); //STATIC FILES -> /resources/public
-        }).start(7000);
+        }).start(8000);
 
         //REGISTER THYMELEAF IN JAVALIN
         JavalinRenderer.register(JavalinThymeleaf.INSTANCE, ".html");
@@ -32,7 +32,7 @@ public class Main {
         DBStart.getInstancia().init();
 
         //DEFAULT USER
-        Usuario admin = new Usuario("admin","admin","Administrador", "Admin");
+        Usuario admin = new Usuario("admin","admin","Administrador", "Administrador");
         UsuarioServices.getInstancia().editar(admin);
 
         /**
@@ -62,7 +62,8 @@ public class Main {
                 ctx.render("public/login/index.html", modelo);
             }else{
                 Usuario logged = UsuarioServices.getInstancia().find(user);
-                ctx.cookie("loggedUser", logged.getUsername());
+                ctx.cookie("loggedUser", logged.getUsername(),604800);
+                ctx.cookie("loggedRole", logged.getRole(),604800);
                 ctx.redirect("/form/index.html");
             }
 
@@ -173,14 +174,14 @@ public class Main {
 
 
             if(UsuarioServices.getInstancia().find(usuario) != null){
-                modelo.put("msg", "ERROR: EXISTE UN ESE NOMBRE DE USUARIO");
+                modelo.put("msg", "ERROR: EXISTE USUARIO CON ESE NOMBRE DE USUARIO");
             }else{
                 System.out.println("Entro aqui");
                 modelo.put("msg", "");
                 UsuarioServices.getInstancia().crear(new Usuario(usuario, contrasena,nombre, rol));
             }
 
-            System.out.println(UsuarioServices.getInstancia().find(usuario));
+            System.out.println(UsuarioServices.getInstancia().find(usuario).getNombre());
 
 
 
