@@ -32,7 +32,7 @@ public class Main {
         DBStart.getInstancia().init();
 
         //DEFAULT USER
-        Usuario admin = new Usuario("admin","admin","Administrador", "Administrador");
+        Usuario admin = new Usuario("admin","admin","Administrador", "administrador");
         UsuarioServices.getInstancia().editar(admin);
 
         /**
