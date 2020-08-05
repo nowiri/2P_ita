@@ -62,8 +62,8 @@ public class Main {
                 ctx.render("public/login/index.html", modelo);
             }else{
                 Usuario logged = UsuarioServices.getInstancia().find(user);
-                ctx.cookie("loggedUser", logged.getUsername());
-                ctx.cookie("loggedRole", logged.getRole());
+                ctx.cookie("loggedUser", logged.getUsername(),86400);
+                ctx.cookie("loggedRole", logged.getRole(),86400);
                 ctx.redirect("/form/index.html");
             }
 
@@ -186,6 +186,15 @@ public class Main {
 
 
             ctx.render("public/registrar/index.html",modelo );
+        });
+
+        app.get("/sincronizados", ctx -> {
+
+            Map<String, Object> modelo = new HashMap<>();
+            List<Formulario> forms = FormularioServices.getInstancia().findAll();
+            modelo.put("forms",forms);
+            ctx.render("public/sincronizados/index.html", modelo);
+
         });
 
     }

@@ -91,8 +91,6 @@
                 // Clean data
                 nombre.value = '';
                 apellido.value = '';
-                provincia.selectedIndex = "0";
-                nivelAcad.selectedIndex = "0";
 
                 // Append to my localStorage
                 agregarLocalStorage(formulario);
@@ -184,12 +182,12 @@
                     document.getElementById("checkOnline").innerHTML = "Online";
                     document.getElementById("checkOnline").style.color = "green";
                     document.getElementById("sync").style.visibility = 'visible';
-                    document.getElementById("ddregistros").style.visibility = 'visible';
+                    document.getElementById("dropdown").style.visibility = 'visible';
                 } else {
                     document.getElementById("checkOnline").innerHTML = "Offline";
                     document.getElementById("checkOnline").style.color = "red";
                     document.getElementById("sync").style.visibility = 'hidden';
-                    document.getElementById("ddregistros").style.visibility = 'hidden';
+                    document.getElementById("dropdown").style.visibility = 'hidden';
                 }
             }, 3000);
         }
@@ -200,7 +198,7 @@
     <script>
         function sync(){
             let webSocket;
-            webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/sincronizarForms");
+            webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
             webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
             webSocket.onclose = function(e) {
                 console.log("Desconectado - status " + this.readyState);
@@ -277,7 +275,7 @@
 
         function init() {
 
-            if(readCookie("loggedUser") === null || readCookie("loggedUser") === null){
+            if(readCookie("loggedUser") === null || readCookie("loggedRole") === null){
                 location.replace("/login");
             }
 
@@ -286,6 +284,8 @@
 
             if(localStorage.getItem("loggedRole") !== "Administrador"){
                 document.getElementById("ddusuario").style.visibility = 'hidden';
+                document.getElementById("ddregistros").style.visibility = 'hidden';
+                document.getElementById("ddformularios").style.visibility = 'hidden';
             }
             getlocation();
             formCRUD();
@@ -332,12 +332,13 @@
             <div class="card card-5">
                 <div class="card-heading">
                     <h2 class="title">ENCUESTAS</h2>
-                    <div class="dropdown">
+                    <div class="dropdown" id="dropdown">
                         <button onclick="myFunctionDrop()" class="dropbtn" style="color:white;"><i class="material-icons md-48">menu</i></button>
                         <div id="myDropdown" class="dropdown-content">
+                            <a href="/login">Iniciar Sesion</a>
                             <a href="/mapas" id="ddregistros">Ver ubicacion de registros</a>
                             <a href="/registrar" id="ddusuario">Nuevo usuario</a>
-                            <a href="/login">Iniciar Sesion</a>
+                            <a href="/sincronizados" id="ddformularios">Ver formularios sincronizados</a>
                         </div>
                     </div>
                 </div>
