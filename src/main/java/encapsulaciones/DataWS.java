@@ -8,8 +8,9 @@ public class DataWS {
     private String provincia;
     private String nivelacad;
     private String usuario;
+    private String foto;
 
-    public DataWS(String longitud, String latitud, String nombre, String apellido, String provincia, String nivelacad, String usuario) {
+    public DataWS(String longitud, String latitud, String nombre, String apellido, String provincia, String nivelacad, String usuario, String foto) {
         this.longitud = longitud;
         this.latitud = latitud;
         this.nombre = nombre;
@@ -17,6 +18,7 @@ public class DataWS {
         this.provincia = provincia;
         this.nivelacad = nivelacad;
         this.usuario = usuario;
+        this.foto = foto;
     }
 
     public String getLongitud() {
@@ -73,5 +75,13 @@ public class DataWS {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

@@ -8,6 +8,7 @@
         <class>encapsulaciones.Formulario</class>
         <class>encapsulaciones.Usuario</class>
         <class>encapsulaciones.Ubicacion</class>
+        <class>encapsulaciones.Foto</class>
 
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/registrosDB" />

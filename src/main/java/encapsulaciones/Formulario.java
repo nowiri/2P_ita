@@ -2,6 +2,8 @@ package encapsulaciones;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Formulario implements Serializable
@@ -16,6 +18,10 @@ public class Formulario implements Serializable
 
     @OneToOne(fetch = FetchType.EAGER)
     private Usuario usuario;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "formulario", fetch = FetchType.EAGER)
+    @Lob
+    private Foto foto;
 
     public Formulario(){}
 

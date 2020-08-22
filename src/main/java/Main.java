@@ -1,16 +1,11 @@
 import com.google.gson.Gson;
-import encapsulaciones.DataWS;
-import encapsulaciones.Formulario;
-import encapsulaciones.Ubicacion;
-import encapsulaciones.Usuario;
+import encapsulaciones.*;
 import io.javalin.Javalin;
 import io.javalin.plugin.rendering.JavalinRenderer;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
 import org.eclipse.jetty.server.UserIdentity;
-import services.DBStart;
-import services.FormularioServices;
-import services.UbicacionServices;
-import services.UsuarioServices;
+import org.eclipse.jetty.websocket.api.Session;
+import services.*;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -34,6 +29,7 @@ public class Main {
         //DEFAULT USER
         Usuario admin = new Usuario("admin","admin","Administrador", "administrador");
         UsuarioServices.getInstancia().editar(admin);
+
 
         /**
          * LOGIN !
@@ -116,6 +112,7 @@ public class Main {
                 String provincia = dws.getProvincia();
                 String nivelacad = dws.getNivelacad();
                 String usuario = dws.getUsuario();
+                String foto = dws.getFoto();
 
                 Usuario Usuario = UsuarioServices.getInstancia().find(usuario);
                 Formulario form = new Formulario(nombre,provincia,nivelacad,Usuario);
@@ -123,6 +120,9 @@ public class Main {
 
                 Ubicacion ubicacion = new Ubicacion(longitud,latitud,form);
                 UbicacionServices.getInstancia().crear(ubicacion);
+
+                Foto FOTO = new Foto(nombre, foto.substring(5, 15), foto.substring(23), form);
+                FotoServices.getInstancia().crear(FOTO);
 
             });
 
@@ -137,6 +137,7 @@ public class Main {
             });
 
             ws.onError(ctx -> {
+                System.out.println(ctx.error());
                 System.out.println("Ocurrió un error en el WS");
             });
         });

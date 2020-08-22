@@ -27,8 +27,49 @@
     <!-- Main CSS-->
     <link href="../form/css/main.css" rel="stylesheet" media="all">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
-    <script src="../form/js/jquery-3.2.1.min.js"></script>
+    <!-- WEB CAM SCRIPT -->
+    <script type="text/javascript" src="../form/webcam-easy.js"></script>
+
+    <script>
+
+        var picture;
+
+        function camStart(webcam) {
+            webcam.start()
+                .then(result =>{
+                    console.log("webcam started");
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+
+        function camStop(webcam) {
+            webcam.stop();
+        }
+
+        function camSnap(webcam) {
+            picture = webcam.snap();
+        }
+
+        function getPicture() {
+            return picture;
+        }
+
+        function camFlip(webcam) {
+            if (webcam.facingMode === "user"){
+                webcam.facingMode = "enviroment";
+            }else {
+                webcam.facingMode = "user";
+            }
+
+            console.log(webcam.facingMode);
+        }
+
+    </script>
 
     <!-- Geoloaction -->
     <script>
@@ -85,7 +126,8 @@
                     apellido: apellido.value,
                     provincia: provincia.value,
                     nivelacad: nivelAcad.value,
-                    usuario: usuario
+                    usuario: usuario,
+                    foto: getPicture()
                 };
 
                 // Clean data
@@ -211,7 +253,7 @@
     <script>
         function sync(){
             let webSocket;
-            webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/sincronizarForms");
+            webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
             webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
             webSocket.onclose = function(e) {
                 console.log("Desconectado - status " + this.readyState);
@@ -310,6 +352,28 @@
 
             $("#sync").click(function(){
                 sync();
+            });
+
+            var webcamElement = document.getElementById('webcam');
+            var canvasElement = document.getElementById('canvas');
+            var snapSoundElement = document.getElementById('snapSound');
+            var webcam = new Webcam(webcamElement, 'enviroment', canvasElement, snapSoundElement);
+            console.log("webcam created");
+
+            $("#camStart").click(function(){
+                camStart(webcam);
+            });
+
+            $("#camStop").click(function(){
+                camStop(webcam);
+            });
+
+            $("#camSnap").click(function(){
+                camSnap(webcam, canvas);
+            });
+
+            $("#camFlip").click(function(){
+                camFlip(webcam);
             });
 
         };
@@ -432,9 +496,6 @@
                             </div>
                         </div>
 
-                        <!--  Radio buttons -->
-
-                        <!-- lista de productos, en el select -->
                         <div class="form-row">
                             <div class="name">Nivel academico</div>
                             <div class="value">
@@ -453,6 +514,22 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="form-row" style="border: solid 1px; padding: 10px;">
+
+                            <h3>Vista Previa:</h3>
+                            <video id="webcam" autoplay playsinline width="640" height="480"></video>
+                            <button class="btn btn--radius-2 btn--red" id="camSnap">Snap</button>
+                            <button class="btn btn--radius-2 btn--red" id="camFlip">Flip</button>
+                            <button class="btn btn--radius-2 btn--red" id="camStart">ON</button>
+                            <button class="btn btn--radius-2 btn--red" id="camStop">OFF</button>
+                            <br>
+                            <h3>Foto Adjunta:</h3>
+                            <canvas id="canvas" class="form-row"></canvas>
+
+                            <audio id="snapSound" src="../form/snap.wav" preload = "auto"></audio>
+
                         </div>
 
 
