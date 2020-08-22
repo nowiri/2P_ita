@@ -71,7 +71,7 @@ public class Main {
             ctx.render("public/form/index.html");
         });
 
-        app.post("/newFormulario", ctx -> {
+       /* app.post("/newFormulario", ctx -> {
             String nombre, apellido, provincia, nivelAcad, longitud, latitud;
             Usuario usuario = UsuarioServices.getInstancia().find(ctx.cookie("loggedUser"));
 
@@ -90,7 +90,7 @@ public class Main {
 
             ctx.redirect("/form/index.html");
 
-        });
+        }); */
 
         app.ws("/sincronizarForms", ws -> {
 
@@ -114,15 +114,16 @@ public class Main {
                 String usuario = dws.getUsuario();
                 String foto = dws.getFoto();
 
+                Foto FOTO = new Foto(nombre, foto.substring(5, 15), foto.substring(23));
+                FotoServices.getInstancia().crear(FOTO);
+
                 Usuario Usuario = UsuarioServices.getInstancia().find(usuario);
-                Formulario form = new Formulario(nombre,provincia,nivelacad,Usuario);
+                Formulario form = new Formulario(nombre,provincia,nivelacad,Usuario, FOTO);
                 FormularioServices.getInstancia().crear(form);
 
                 Ubicacion ubicacion = new Ubicacion(longitud,latitud,form);
                 UbicacionServices.getInstancia().crear(ubicacion);
 
-                Foto FOTO = new Foto(nombre, foto.substring(5, 15), foto.substring(23), form);
-                FotoServices.getInstancia().crear(FOTO);
 
             });
 

@@ -14,19 +14,15 @@ public class Foto implements Serializable {
     @Lob
     private String fotoBase64;
 
-    @ManyToOne
-    private Formulario formulario;
-
 
     public Foto() {
 
     }
 
-    public Foto(String nombre, String mimeType, String fotoBase64, Formulario formulario){
+    public Foto(String nombre, String mimeType, String fotoBase64){
         this.nombre = nombre;
         this.mimeType = mimeType;
         this.fotoBase64 = fotoBase64;
-        this.formulario = formulario;
     }
 
     public Long getId() {

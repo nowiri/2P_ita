@@ -27,8 +27,7 @@
     <!-- Main CSS-->
     <link href="../form/css/main.css" rel="stylesheet" media="all">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script type="text/javascript" src="../form/js/jquery-3.2.1.min.js"></script>
 
     <!-- WEB CAM SCRIPT -->
     <script type="text/javascript" src="../form/webcam-easy.js"></script>
@@ -207,20 +206,6 @@
 
     <!--Connectivity Check -->
     <script>
-
-        var ifConnected = window.navigator.onLine;
-        if (ifConnected) {
-            document.getElementById("checkOnline").innerHTML = "Online";
-            document.getElementById("checkOnline").style.color = "green";
-            document.getElementById("sync").style.visibility = 'visible';
-            document.getElementById("dropdown").style.visibility = 'visible';
-        } else {
-            document.getElementById("checkOnline").innerHTML = "Offline";
-            document.getElementById("checkOnline").style.color = "red";
-            document.getElementById("sync").style.visibility = 'hidden';
-            document.getElementById("dropdown").style.visibility = 'hidden';
-        }
-
         function checkcon() {
             setInterval(function () {
                 var ifConnected = window.navigator.onLine;
@@ -237,7 +222,6 @@
                 }
             }, 3000);
         }
-
     </script>
 
     <!-- Data Sync -->
