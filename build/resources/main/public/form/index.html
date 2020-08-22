@@ -59,6 +59,7 @@
             return picture;
         }
 
+
     </script>
 
     <!-- Geoloaction -->
@@ -347,7 +348,7 @@
             var webcamElement = document.getElementById('webcam');
             var canvasElement = document.getElementById('canvas');
             var snapSoundElement = document.getElementById('snapSound');
-            var webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
+            var webcam = new Webcam(webcamElement, 'enviroment', canvasElement, snapSoundElement);
             console.log("webcam created");
 
             $("#camStart").click(function(){
@@ -505,13 +506,13 @@
                         <div class="form-row" style="border: solid 1px; padding: 10px;">
 
                             <h3>Vista Previa:</h3>
-                            <video id="webcam" autoplay playsinline width="640" height="480"></video>
+                            <video style="alignment: left;" id="webcam" autoplay playsinline width="320" height="240"></video>
                             <button class="btn btn--radius-2 btn--red" id="camSnap">Snap</button>
                             <button class="btn btn--radius-2 btn--red" id="camStart">ON</button>
                             <button class="btn btn--radius-2 btn--red" id="camStop">OFF</button>
                             <br>
                             <h3>Foto Adjunta:</h3>
-                            <canvas id="canvas" class="form-row"></canvas>
+                            <canvas style="alignment: left;" id="canvas" class="form-row"></canvas>
 
                             <audio id="snapSound" src="../form/snap.wav" preload = "auto"></audio>
 

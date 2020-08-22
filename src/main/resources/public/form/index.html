@@ -59,15 +59,6 @@
             return picture;
         }
 
-        function camFlip(webcam) {
-            if (webcam.facingMode === "user"){
-                webcam.facingMode = "enviroment";
-            }else {
-                webcam.facingMode = "user";
-            }
-
-            console.log(webcam.facingMode);
-        }
 
     </script>
 
@@ -253,7 +244,7 @@
     <script>
         function sync(){
             let webSocket;
-            webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
+            webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/sincronizarForms");
             webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
             webSocket.onclose = function(e) {
                 console.log("Desconectado - status " + this.readyState);
@@ -370,10 +361,6 @@
 
             $("#camSnap").click(function(){
                 camSnap(webcam, canvas);
-            });
-
-            $("#camFlip").click(function(){
-                camFlip(webcam);
             });
 
         };
@@ -519,14 +506,13 @@
                         <div class="form-row" style="border: solid 1px; padding: 10px;">
 
                             <h3>Vista Previa:</h3>
-                            <video id="webcam" autoplay playsinline width="640" height="480"></video>
+                            <video style="alignment: left;" id="webcam" autoplay playsinline width="320" height="240"></video>
                             <button class="btn btn--radius-2 btn--red" id="camSnap">Snap</button>
-                            <button class="btn btn--radius-2 btn--red" id="camFlip">Flip</button>
                             <button class="btn btn--radius-2 btn--red" id="camStart">ON</button>
                             <button class="btn btn--radius-2 btn--red" id="camStop">OFF</button>
                             <br>
                             <h3>Foto Adjunta:</h3>
-                            <canvas id="canvas" class="form-row"></canvas>
+                            <canvas style="alignment: left;" id="canvas" class="form-row"></canvas>
 
                             <audio id="snapSound" src="../form/snap.wav" preload = "auto"></audio>
 
