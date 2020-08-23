@@ -116,7 +116,7 @@
                         <tbody>
                         <tr th:each="form : ${forms}">
 
-                            <td> <img class="d-block w-100" th:src="@{'data:'+${form.foto.mimeType}+';base64,'+${form.foto.fotoBase64}}" alt="First slide"> </td>
+                            <td> <img class="d-block w-100" th:src="@{'data:'+${form.foto.mimeType}+';base64,'+${form.foto.fotoBase64}}" alt="Foto del entrevistado"> </td>
                             <td th:text="${form.nombre}">Nombre</td>
                             <td th:text="${form.sector}">Provincia</td>
                             <td th:text="${form.nivelEscolar}">Nivel</td>

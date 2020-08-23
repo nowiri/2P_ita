@@ -72,4 +72,8 @@ public class Formulario implements Serializable
     public void setFoto(Foto foto) {
         this.foto = foto;
     }
+
+    public int getId() {
+        return id;
+    }
 }

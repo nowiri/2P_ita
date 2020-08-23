@@ -1,18 +1,34 @@
 import com.google.gson.Gson;
 import encapsulaciones.*;
 import io.javalin.Javalin;
+import io.javalin.http.ForbiddenResponse;
 import io.javalin.plugin.rendering.JavalinRenderer;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
-import org.eclipse.jetty.server.UserIdentity;
-import org.eclipse.jetty.websocket.api.Session;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import services.*;
 
-import javax.swing.*;
+import javax.crypto.SecretKey;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.javalin.apibuilder.ApiBuilder.*;
+import static org.eclipse.jetty.http.HttpStatus.Code.FORBIDDEN;
+
 public class Main {
+
+    public final static String LLAVE_SECRETA = "asd12D1234dfr123@#4Fsdcasdd5g78a";
+
     public static void main(String[] args) {
 
         //JAVALIN INIT
@@ -199,6 +215,180 @@ public class Main {
 
         });
 
+        app.post("apiListar", ctx ->{
+
+            String user = ctx.formParam("usuario");
+            Usuario usuario = UsuarioServices.getInstancia().find(user);
+            EntityManager em =FormularioServices.getInstancia().getEntityManager();
+
+            String queryString = "SELECT f FROM Formulario f " +
+                    "WHERE f.usuario.username = :username";
+
+            Query query = em.createQuery(queryString);
+
+            query.setParameter("username", usuario.getUsername());
+
+            List<Formulario> lista = query.getResultList();
+
+            ctx.json(lista);
+
+        });
+
+        app.routes(() ->{
+
+            path("/apirest", () -> {
+
+                before("/listar",ctx -> {
+
+                    System.out.println("Analizando que exista el token");
+
+                    //informacion para consultar en la trama.
+                    String header = "Authorization";
+                    String prefijo = "Bearer";
+
+                    //Verificando si existe el header de autorizacion.
+                    String headerAutentificacion = ctx.header(header);
+                    if(headerAutentificacion == null || !headerAutentificacion.startsWith(prefijo)){
+                        System.out.println("No hay");
+                        throw new ForbiddenResponse("No tiene permiso para acceder al recurso");
+                    }else{
+
+                        //recuperando el token y validando
+                        String tramaJwt = headerAutentificacion.replace(prefijo, "");
+                        try {
+                            Claims claims = Jwts.parser()
+                                    .setSigningKey(Keys.hmacShaKeyFor(LLAVE_SECRETA.getBytes()))
+                                    .parseClaimsJws(tramaJwt).getBody();
+                            System.out.println("Mostrando el JWT recibido: " + claims.toString());
+                        }catch (ExpiredJwtException | MalformedJwtException | SignatureException e){ //Excepciones comunes
+                            throw new ForbiddenResponse(e.getMessage());
+                        }
+
+                        //En este punto puedo realizar validaciones en función a los permisos del usuario.
+                        //tener pendiente que el JWT está formado no encriptado.
+                    }
+
+                });
+
+                post("/listar", ctx -> {
+
+                    String user = ctx.formParam("usuario");
+                    Usuario usuario = UsuarioServices.getInstancia().find(user);
+                    EntityManager em =FormularioServices.getInstancia().getEntityManager();
+
+                    String queryString = "SELECT u FROM Ubicacion u " +
+                            "WHERE u.formulario.usuario.username = :username";
+
+                    Query query = em.createQuery(queryString);
+
+                    query.setParameter("username", usuario.getUsername());
+
+                    List<Formulario> lista = query.getResultList();
+
+                    ctx.json(lista);
+
+                });
+
+                before("/newForm",ctx -> {
+
+                    System.out.println("Analizando que exista el token");
+
+                    //informacion para consultar en la trama.
+                    String header = "Authorization";
+                    String prefijo = "Bearer";
+
+                    //Verificando si existe el header de autorizacion.
+                    String headerAutentificacion = ctx.header(header);
+                    if(headerAutentificacion == null || !headerAutentificacion.startsWith(prefijo)){
+                        System.out.println("No hay");
+                        throw new ForbiddenResponse("No tiene permiso para acceder al recurso");
+                    }else{
+
+                        //recuperando el token y validando
+                        String tramaJwt = headerAutentificacion.replace(prefijo, "");
+                        try {
+                            Claims claims = Jwts.parser()
+                                    .setSigningKey(Keys.hmacShaKeyFor(LLAVE_SECRETA.getBytes()))
+                                    .parseClaimsJws(tramaJwt).getBody();
+                            System.out.println("Mostrando el JWT recibido: " + claims.toString());
+                        }catch (ExpiredJwtException | MalformedJwtException | SignatureException e){ //Excepciones comunes
+                            throw new ForbiddenResponse(e.getMessage());
+                        }
+
+                        //En este punto puedo realizar validaciones en función a los permisos del usuario.
+                        //tener pendiente que el JWT está formado no encriptado.
+                    }
+
+                });
+
+                post("/newForm", ctx -> {
+
+                    Gson g = new Gson();
+                    DataWS dws = g.fromJson(ctx.body(), DataWS.class);
+
+                    String nombre = dws.getNombre()+" "+dws.getApellido();
+                    String latitud = dws.getLatitud();
+                    String longitud = dws.getLongitud();
+                    String provincia = dws.getProvincia();
+                    String nivelacad = dws.getNivelacad();
+                    String usuario = dws.getUsuario();
+                    String foto = dws.getFoto();
+
+                    Foto FOTO = new Foto(nombre, foto.substring(5, 15), foto.substring(23));
+                    FotoServices.getInstancia().crear(FOTO);
+
+                    Usuario Usuario = UsuarioServices.getInstancia().find(usuario);
+                    Formulario form = new Formulario(nombre,provincia,nivelacad,Usuario, FOTO);
+                    FormularioServices.getInstancia().crear(form);
+
+                    Ubicacion ubicacion = new Ubicacion(longitud,latitud,form);
+                    UbicacionServices.getInstancia().crear(ubicacion);
+
+                    ctx.result("Formulario creado con exito");
+
+                });
+
+
+                post("/login", ctx -> {
+
+                    String user = ctx.formParam("usuario");
+                    String pass = ctx.formParam("pass");
+
+                    if(UsuarioServices.getInstancia().verifyUser(pass,user) == null){
+                        //TODO: BAD LOGIN VIA REST API
+
+                    }else{
+                        LoginResponse lr = generacionJsonWebToken(user);
+                        ctx.json(lr);
+                    }
+
+
+                });
+
+            });
+
+        });
+
+    }
+
+    private static LoginResponse generacionJsonWebToken(String usuario){
+        LoginResponse loginResponse = new LoginResponse();
+        //generando la llave.
+        SecretKey secretKey = Keys.hmacShaKeyFor(LLAVE_SECRETA.getBytes());
+        //Generando la fecha valida
+        LocalDateTime localDateTime = LocalDateTime.now().plusMinutes(24*60);
+        System.out.println("La fecha actual: "+localDateTime.toString());
+
+        // creando la trama.
+        String jwt = Jwts.builder()
+                .setIssuer("2P-PUCMM")
+                .setSubject("2P ITA")
+                .setExpiration(Date.from(localDateTime.toInstant(ZoneOffset.ofHours(-4))))
+                .claim("usuario", usuario)
+                .signWith(secretKey)
+                .compact();
+        loginResponse.setToken(jwt);
+        return loginResponse;
     }
 
 }
