@@ -34,6 +34,7 @@ public class Main {
         //JAVALIN INIT
         Javalin app = Javalin.create(config -> {
             config.addStaticFiles("/public"); //STATIC FILES -> /resources/public
+            config.enableCorsForAllOrigins();
         }).start(8000);
 
         //REGISTER THYMELEAF IN JAVALIN
