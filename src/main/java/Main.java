@@ -53,8 +53,6 @@ public class Main {
 
         app.before("/*", ctx ->{
             ctx.header("Access-Control-Allow-Origin", "*");
-            ctx.header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS");
-            ctx.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         });
 
         app.options("/*", ctx -> {
@@ -69,9 +67,14 @@ public class Main {
             if (accessControlRequestMethod != null) {
                 ctx.header("Access-Control-Allow-Methods",accessControlRequestMethod);
             }
+
             ctx.status(200).result("OK");
 
         });
+
+        /**
+         * LOGIN
+         */
 
         app.get("/", ctx -> {
             ctx.redirect("/form/index.html");
@@ -108,26 +111,9 @@ public class Main {
             ctx.render("public/form/index.html");
         });
 
-       /* app.post("/newFormulario", ctx -> {
-            String nombre, apellido, provincia, nivelAcad, longitud, latitud;
-            Usuario usuario = UsuarioServices.getInstancia().find(ctx.cookie("loggedUser"));
-
-            longitud = ctx.formParam("longitud");
-            latitud = ctx.formParam("latitud");
-            nombre = ctx.formParam("first_name");
-            apellido = ctx.formParam("last_name");
-            provincia = ctx.formParam("subject");
-            nivelAcad = ctx.formParam("nivelacad");
-
-            Formulario form = new Formulario((nombre+" "+apellido),provincia,nivelAcad,usuario);
-            FormularioServices.getInstancia().crear(form);
-
-            Ubicacion ubicacion = new Ubicacion(longitud,latitud,form);
-            UbicacionServices.getInstancia().crear(ubicacion);
-
-            ctx.redirect("/form/index.html");
-
-        }); */
+        /**
+         * WEBSOCKET CONFIG
+         */
 
         app.ws("/sincronizarForms", ws -> {
 
@@ -180,6 +166,10 @@ public class Main {
             });
         });
 
+        /**
+         * MAPS ENDPOINT
+         */
+
         app.get("/mapas", ctx -> {
             Map<String, Object> modelo = new HashMap<>();
 
@@ -192,6 +182,10 @@ public class Main {
 
             ctx.render("public/mapas/index.html", modelo);
         });
+
+        /**
+         * NEW USERS
+         */
 
         app.get("/registrar", ctx -> {
             Map<String, Object> modelo = new HashMap<>();
@@ -226,6 +220,10 @@ public class Main {
             ctx.render("public/registrar/index.html",modelo );
         });
 
+        /**
+         * SYNCED FORMS
+         */
+
         app.get("/sincronizados", ctx -> {
 
             Map<String, Object> modelo = new HashMap<>();
@@ -235,24 +233,9 @@ public class Main {
 
         });
 
-        app.post("apiListar", ctx ->{
-
-            String user = ctx.formParam("usuario");
-            Usuario usuario = UsuarioServices.getInstancia().find(user);
-            EntityManager em =FormularioServices.getInstancia().getEntityManager();
-
-            String queryString = "SELECT f FROM Formulario f " +
-                    "WHERE f.usuario.username = :username";
-
-            Query query = em.createQuery(queryString);
-
-            query.setParameter("username", usuario.getUsername());
-
-            List<Formulario> lista = query.getResultList();
-
-            ctx.json(lista);
-
-        });
+        /**
+         * API
+         */
 
         app.routes(() ->{
 
@@ -390,6 +373,12 @@ public class Main {
         });
 
     }
+
+    /**
+     * JWT GENERATION
+     * @param usuario
+     * @return
+     */
 
     private static LoginResponse generacionJsonWebToken(String usuario){
         LoginResponse loginResponse = new LoginResponse();
