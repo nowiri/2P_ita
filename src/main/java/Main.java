@@ -47,11 +47,9 @@ public class Main {
         Usuario admin = new Usuario("admin","admin","Administrador", "administrador");
         UsuarioServices.getInstancia().editar(admin);
 
-
         /**
          * LOGIN !
          */
-
 
         app.get("/", ctx -> {
             ctx.redirect("/form/index.html");
@@ -285,7 +283,7 @@ public class Main {
                     query.setParameter("username", usuario.getUsername());
 
                     List<Formulario> lista = query.getResultList();
-
+                    ctx.header("Access-Control-Allow-Origin", "*");
                     ctx.json(lista);
 
                 });
