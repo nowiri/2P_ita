@@ -251,6 +251,7 @@ public class Main {
 
                     //Verificando si existe el header de autorizacion.
                     String headerAutentificacion = ctx.header(header);
+                    System.out.println(headerAutentificacion);
                     if(headerAutentificacion == null || !headerAutentificacion.startsWith(prefijo)){
                         System.out.println("No hay");
                         throw new ForbiddenResponse("No tiene permiso para acceder al recurso");
