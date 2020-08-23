@@ -51,6 +51,12 @@ public class Main {
          * LOGIN !
          */
 
+        app.before("/*", ctx ->{
+            ctx.header("Access-Control-Allow-Origin", "*");
+            ctx.header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS");
+            ctx.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        });
+
         app.get("/", ctx -> {
             ctx.redirect("/form/index.html");
         });
@@ -171,7 +177,6 @@ public class Main {
             ctx.render("public/mapas/index.html", modelo);
         });
 
-
         app.get("/registrar", ctx -> {
             Map<String, Object> modelo = new HashMap<>();
 //            Usuario user = UsuarioServices.getInstancia().find(ctx.sessionAttribute("loggedUser"));
@@ -283,10 +288,6 @@ public class Main {
                     query.setParameter("username", usuario.getUsername());
 
                     List<Formulario> lista = query.getResultList();
-
-                    ctx.header("Access-Control-Allow-Origin", "*");
-                    ctx.header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS");
-                    ctx.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
                     ctx.json(lista);
 
