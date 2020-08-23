@@ -48,13 +48,29 @@ public class Main {
         UsuarioServices.getInstancia().editar(admin);
 
         /**
-         * LOGIN !
+         * CORS STUFF !
          */
 
         app.before("/*", ctx ->{
             ctx.header("Access-Control-Allow-Origin", "*");
             ctx.header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS");
             ctx.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        });
+
+        app.options("/*", ctx -> {
+
+            System.out.println("Entrando al metodo de options");
+            String accessControlRequestHeaders = ctx.header("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                ctx.header("Access-Control-Allow-Headers",accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = ctx.header("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                ctx.header("Access-Control-Allow-Methods",accessControlRequestMethod);
+            }
+            ctx.status(200).result("OK");
+
         });
 
         app.get("/", ctx -> {
