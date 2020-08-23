@@ -283,7 +283,11 @@ public class Main {
                     query.setParameter("username", usuario.getUsername());
 
                     List<Formulario> lista = query.getResultList();
+
                     ctx.header("Access-Control-Allow-Origin", "*");
+                    ctx.header(("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS");
+                    ctx.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
                     ctx.json(lista);
 
                 });
