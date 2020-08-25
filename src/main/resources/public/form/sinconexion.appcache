@@ -10,6 +10,7 @@ vendor/datepicker/daterangepicker.css
 vendor/datepicker/daterangepicker.js
 vendor/datepicker/moment.min.js
 vendor/font-awesome-4.7/css/font-awesome.css
+vendor/font-awesome-4.7/css/font-awesome.min.css
 vendor/font-awesome-4.7/fonts/FontAwesome.otf
 vendor/font-awesome-4.7/fonts/fontawesome-webfont.eot
 vendor/font-awesome-4.7/fonts/fontawesome-webfont.svg
@@ -18,6 +19,7 @@ vendor/font-awesome-4.7/fonts/fontawesome-webfont.woff
 vendor/font-awesome-4.7/fonts/fontawesome-webfont.woff2
 vendor/jquery/jquery.js
 vendor/mdi-font/css/material-design-iconic-font.css
+vendor/mdi-font/css/material-design-iconic-font.min.css
 vendor/mdi-font/fonts/Material-Design-Iconic-Font.eot
 vendor/mdi-font/fonts/Material-Design-Iconic-Font.svg
 vendor/mdi-font/fonts/Material-Design-Iconic-Font.ttf
