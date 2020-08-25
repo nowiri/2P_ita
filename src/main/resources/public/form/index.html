@@ -227,6 +227,7 @@
     <!-- Data Sync -->
     <script>
         function sync(){
+
             let webSocket;
             webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/sincronizarForms");
             webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
@@ -237,28 +238,40 @@
             var forms = [],
                 dataInLocalStorage = localStorage.getItem("forms");
 
+            try {
 
-            if (dataInLocalStorage !== null || dataInLocalStorage === "") {
-                //var worker = new Worker('../form/js/webworker.js');
-                //worker.postMessage({'cmd': 'sincronizar', 'stg': dataInLocalStorage});
+                if (dataInLocalStorage !== null || dataInLocalStorage === "") {
+                    //var worker = new Worker('../form/js/webworker.js');
+                    //worker.postMessage({'cmd': 'sincronizar', 'stg': dataInLocalStorage});
 
-                forms = JSON.parse(dataInLocalStorage);
-                forms.forEach(myFunction)
+                    forms = JSON.parse(dataInLocalStorage);
+                    forms.forEach(myFunction)
 
-                function myFunction(item, index, arr) {
-                    sendMessage(JSON.stringify(item));
+                    function myFunction(item, index, arr) {
+                        sendMessage(JSON.stringify(item));
+                    }
+
+                }else{
+                    console.log("Nada que sincronizar . . .")
                 }
 
-            }else{
-                console.log("Nada que sincronizar . . .")
+            } //END OF TRY
+
+            catch(err) {
+
+                console.log(err);
+
+            }
+            finally {
+
+                webSocket.close();
+
+                localStorage.removeItem("forms");
+                formCRUD();
+
             }
 
-            setTimeout(function () {
-                webSocket.close();
-            },500);
-
-            localStorage.removeItem("forms");
-            formCRUD();
+            //END OF TRY CATCH FINALLY
 
             function sendMessage(msg){
                 // Wait until the state of the socket is not ready and send the message when it is...
