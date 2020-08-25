@@ -6,6 +6,8 @@ import encapsulaciones.Foto;
 import encapsulaciones.Ubicacion;
 import encapsulaciones.Usuario;
 import services.FormularioServices;
+import services.FotoServices;
+import services.UbicacionServices;
 import services.UsuarioServices;
 
 import javax.jws.WebMethod;
@@ -55,9 +57,18 @@ public class FormWebServices {
         Gson g2 = new Gson();
         Gson g3 = new Gson();
 
-        Formulario formulario = g1.fromJson(form, Formulario.class);
-        Ubicacion ubicacion = g2.fromJson(location, Ubicacion.class);
-        Foto fotografia = g3.fromJson(foto, Foto.class);
+        Foto fotografia = new Foto();
+        fotografia = g3.fromJson(foto, Foto.class);
+        Formulario formulario = new Formulario();
+        formulario = g1.fromJson(form, Formulario.class);
+        formulario.setFoto(fotografia);
+        Ubicacion ubicacion = new Ubicacion();
+        ubicacion = g2.fromJson(location, Ubicacion.class);
+        ubicacion.setFormulario(formulario);
+
+        FotoServices.getInstancia().crear(fotografia);
+        FormularioServices.getInstancia().crear(formulario);
+        UbicacionServices.getInstancia().crear(ubicacion);
 
     }
 
