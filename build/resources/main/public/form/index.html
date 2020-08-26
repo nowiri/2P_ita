@@ -227,63 +227,70 @@
     <!-- Data Sync -->
     <script>
         function sync(){
+
             let webSocket;
-            webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
-            webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
-            webSocket.onclose = function(e) {
-                console.log("Desconectado - status " + this.readyState);
-            }
 
-            var forms = [],
-                dataInLocalStorage = localStorage.getItem("forms");
+            try{
 
-
-            if (dataInLocalStorage !== null || dataInLocalStorage === "") {
-                //var worker = new Worker('../form/js/webworker.js');
-                //worker.postMessage({'cmd': 'sincronizar', 'stg': dataInLocalStorage});
-
-                forms = JSON.parse(dataInLocalStorage);
-                forms.forEach(myFunction)
-
-                function myFunction(item, index, arr) {
-                    sendMessage(JSON.stringify(item));
+                webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/sincronizarForms");
+                webSocket.onopen  = function(e){ console.log("Conectado - status "+this.readyState); };
+                webSocket.onclose = function(e) {
+                    console.log("Desconectado - status " + this.readyState);
                 }
 
-            }else{
-                console.log("Nada que sincronizar . . .")
+                var forms = [],
+                    dataInLocalStorage = localStorage.getItem("forms");
+
+                if (dataInLocalStorage !== null || dataInLocalStorage === "") {
+                    //var worker = new Worker('../form/js/webworker.js');
+                    //worker.postMessage({'cmd': 'sincronizar', 'stg': dataInLocalStorage});
+
+                    forms = JSON.parse(dataInLocalStorage);
+                    forms.forEach(myFunction);
+
+                    function sendMessage(msg){
+                        // Wait until the state of the socket is not ready and send the message when it is...
+                        waitForSocketConnection(webSocket, function(){
+                            console.log("message sent!!!");
+                            webSocket.send(msg);
+                        });
+                    }
+
+                    // Make the function wait until the connection is made...
+                    function waitForSocketConnection(socket, callback){
+                        setTimeout(
+                            function () {
+                                if (socket.readyState === 1) {
+                                    console.log("Connection is made")
+                                    if (callback != null){
+                                        callback();
+                                    }
+                                } else {
+                                    console.log("wait for connection...")
+                                    waitForSocketConnection(socket, callback);
+                                }
+
+                            }, 5); // wait 5 milisecond for the connection...
+                    }
+
+                    function myFunction(item, index, arr) {
+                        sendMessage(JSON.stringify(item));
+                    }
+
+                }else{
+                    console.log("Nada que sincronizar . . .");
+                }
+
+            }catch(err){
+                console.log(err);
+
             }
 
             setTimeout(function () {
                 webSocket.close();
             },500);
-
             localStorage.removeItem("forms");
             formCRUD();
-
-            function sendMessage(msg){
-                // Wait until the state of the socket is not ready and send the message when it is...
-                waitForSocketConnection(webSocket, function(){
-                    console.log("message sent!!!");
-                    webSocket.send(msg);
-                });
-            }
-
-            // Make the function wait until the connection is made...
-            function waitForSocketConnection(socket, callback){
-                setTimeout(
-                    function () {
-                        if (socket.readyState === 1) {
-                            console.log("Connection is made")
-                            if (callback != null){
-                                callback();
-                            }
-                        } else {
-                            console.log("wait for connection...")
-                            waitForSocketConnection(socket, callback);
-                        }
-
-                    }, 5); // wait 5 milisecond for the connection...
-            }
 
         }
 
@@ -489,16 +496,27 @@
 
                         <div class="form-row" style="border: solid 1px; padding: 10px;">
 
-                            <h4>Vista Previa:</h4>
-                            <video style="alignment: left;" id="webcam" autoplay playsinline width="320" height="240"></video>
-                            <button class="btn btn--radius-2 btn--red" id="camSnap">Snap</button>
-                            <button class="btn btn--radius-2 btn--red" id="camStart">ON</button>
-                            <button class="btn btn--radius-2 btn--red" id="camStop">OFF</button>
-                            <br>
-                            <h4>Foto Adjunta:</h4>
-                            <br>
-                            <canvas style="alignment: left;" id="canvas" class="form-row"></canvas>
+                            <div class="nav-title">
+                                <h4><strong>Vista previa</strong></h4>
+                            </div>
 
+                            <div class="div_todo">
+                                <div class="div_preview">
+                                    <video style="alignment: left;" id="webcam" autoplay playsinline width="320" height="240"></video>
+                                </div>
+
+                                <div class="botones ">
+                                    <button class="btn btn--radius-2 btn--red" id="camSnap">Snap</button>
+                                    <button class="btn btn--radius-2 btn--red" id="camStart">ON</button>
+                                    <button class="btn btn--radius-2 btn--red" id="camStop">OFF</button>
+                                </div>
+                            </div>
+                            <h4><strong>Foto Adjunta:</strong></h4>
+                            <div class="foto-adjunta" >
+
+                                <br>
+                                <canvas id="canvas" class="form-row"></canvas>
+                            </div>
                             <audio id="snapSound" src="../form/snap.wav" preload = "auto"></audio>
 
                         </div>
