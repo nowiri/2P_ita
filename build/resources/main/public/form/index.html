@@ -286,11 +286,14 @@
 
             }
 
-            setTimeout(function () {
-                webSocket.close();
-            },500);
             localStorage.removeItem("forms");
             formCRUD();
+            alert("Sincronizado con exito!");
+
+            setTimeout(function () {
+                webSocket.close();
+            },5000);
+
 
         }
 
